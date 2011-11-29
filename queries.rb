@@ -32,6 +32,16 @@ class Query
   def listSeats(date, flight, type)
     Telnet.new.query "S" + date + flight + type
   end
+  
+  def combine(&block)
+    instance_eval &block
+  end
+  
 end
 
-Query.new.listDestinations "TEL"
+Query.new.combine do
+  version
+  listAirlines
+  listAirports
+end
+
