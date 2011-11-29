@@ -1,9 +1,3 @@
-require 'net/telnet'
+require 'Actions'
 
-host = Net::Telnet.new('Host' => 'localhost', 'Port' => 12111)
-host.puts("A")
-while line = host.gets
-  puts line
-end
-host.flush
-host.close
+Actions.new.holding "2011-11-05","AFR001","B","M","Dave           ","Clarke              "
