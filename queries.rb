@@ -18,7 +18,7 @@ class Query
   end
   
   def listConnections(date, source, destination)
-    Telnet.new.query "C" + source + destination + date
+    return Telnet.new.query "C" + source + destination + date
   end
   
   def listLocations(flight)
@@ -39,9 +39,9 @@ class Query
   
 end
 
-Query.new.combine do
-  version
-  listAirlines
-  listAirports
-end
+#Query.new.combine do
+#  version
+#  listAirlines
+#  listAirports
+#end
 
