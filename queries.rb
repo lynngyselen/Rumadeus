@@ -31,10 +31,14 @@ class Query
     
   end
   
-  def listConnections(source, destination,date)
+  def listConnections(date,source, destination)
     result =[]
     (Telnet.new.query "C" + source + destination + date).each{
-     |r| result << Connection.new(r)
+     |r|  con = Connection.new(r)
+          con.setDeparture(source)
+          con.setArrival(destination)
+          con.setDate(Date.new(date))
+          result << con
     }
     return result
     
@@ -49,7 +53,11 @@ class Query
   end
   
   def listSeats(date, flight, type)
-    Telnet.new.query "S" + date + flight + type
+    result =[]
+    (Telnet.new.query "S" + date.to_s + flight + type).each{
+     |r| result << SeatPrice.new(r)
+    }
+    return result
   end
   
   def combine(&block)

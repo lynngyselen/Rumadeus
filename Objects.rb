@@ -61,9 +61,28 @@ class Connection
     @deptime = Time.new(input[6,5])
     @duration = Time.new(input[11,5])     
   end
+
+  def getDate
+    return @date
+  end
+
+  def getFlightNr
+    return @flightnr
+  end
+
+  def setDate(date)
+    @date = date
+  end
   
+  def setDeparture(dep)
+    @departure = dep
+  end
+
+  def setArrival(ar)
+    @arrival = ar
+  end  
     def to_s
-      return ((@flightnr.to_s)+" "+(@deptime.to_s) +":"+(@duration.to_s))
+      return ((@date.to_s)+" "+(@departure.to_s)+" "+(@arrival.to_s)+" "+(@flightnr.to_s)+" "+(@deptime.to_s) +" "+(@duration.to_s))
     end
   
 end
@@ -79,9 +98,9 @@ class Date
   
   def initialize(input)
     input = Util.new.LengthCheck(input,10)
-    @year = input[0,3]
-    @month = input[5,6]
-    @day = input[8,9]
+    @year = input[0,4]
+    @month = input[5,2]
+    @day = input[8,2]
   end
   
   def to_s
@@ -123,4 +142,18 @@ class Booking
       return ((@status.to_s)+" "+(@date.to_s)+" "+(@time.to_s)+" "+(@duration.to_s)+" "+(@flightnr.to_s)+" "+(@klasse.to_s)+" "+(@person.to_s)+" "+(@price.to_s))
     end
   
+end
+
+class SeatPrice
+  
+  def initialize(input)
+    input = Util.new.LengthCheck(input,8)
+    @seats = input[0,4]
+    @price = input[4,4]
+  end
+  
+  def to_s
+    return ((@seats.to_s)+" "+(@price.to_s))
+  end
+    
 end
