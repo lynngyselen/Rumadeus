@@ -6,6 +6,14 @@ class Code
     @code = Util.new.LengthCheck(code,3)
   end	
 
+  def ==(other)
+    self.getCode == other.getCode
+  end
+
+  def getCode
+    return @code
+  end
+
   def to_s
     @code
   end
@@ -145,11 +153,30 @@ class Booking
 end
 
 class SeatPrice
+  include Comparable
   
   def initialize(input)
     input = Util.new.LengthCheck(input,8)
     @seats = input[0,4]
     @price = input[4,4]
+  end
+  
+  def <=>(other)
+    if self.getPrice < other.getPrice
+      -1
+    elsif self.getPrice > other.getPrice
+      1
+    else
+      0
+    end
+  end
+  
+  def getPrice
+    return @price
+  end
+  
+  def getSeats
+    return @seats
   end
   
   def to_s
