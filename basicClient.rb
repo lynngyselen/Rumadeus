@@ -10,4 +10,6 @@ require 'queries'
 
 #puts Query.new.listDestinations "AMS"
 
-puts Query.new.listAirlines
+#puts Query.new.listConnections "TEG","AMS","2012-01-31"
+
+puts Actions.new.query "e7f2a02364ff4bd7065fdde2306733ff"

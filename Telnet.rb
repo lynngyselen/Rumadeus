@@ -7,7 +7,7 @@ def query(input)
   host.puts(input)
   result = []
   while line = host.gets
-    result << line
+    result << line[0,line.length-1]
   end
   host.flush
   host.close

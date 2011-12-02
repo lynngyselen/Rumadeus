@@ -15,15 +15,29 @@ class Query
   end
   
   def listAirports
-    Telnet.new.query "P"
+    result =[]
+    (Telnet.new.query "P").each{
+     |r| result << Airport.new(r)
+    }
+    return result
   end
   
   def listDestinations(airport)
-    Telnet.new.query "D" + airport
+    result =[]
+    (Telnet.new.query "D" + airport).each{
+     |r| result << Code.new(r)
+    }
+    return result
+    
   end
   
-  def listConnections(date, source, destination)
-    return Telnet.new.query "C" + source + destination + date
+  def listConnections(source, destination,date)
+    result =[]
+    (Telnet.new.query "C" + source + destination + date).each{
+     |r| result << Connection.new(r)
+    }
+    return result
+    
   end
   
   def listLocations(flight)

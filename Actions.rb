@@ -1,5 +1,6 @@
 require 'Telnet'
 require 'Util'
+require 'Objects'
 
 class Actions
 
@@ -13,7 +14,11 @@ class Actions
   end
 	
 	def book(code)
-	 return Telnet.new.query "B"+(Util.new.LengthCheck code,32)
+	  result =[]
+    (Telnet.new.query "B"+(Util.new.LengthCheck code,32)).each{
+     |r| result << Booking.new(r)
+    }
+    return result
 	end
 
   def cancel(code)
@@ -21,7 +26,11 @@ class Actions
   end
 
   def query(code)
-    return Telnet.new.query "Q"+(Util.new.LengthCheck code,32)
+     result =[]
+    (Telnet.new.query "Q"+(Util.new.LengthCheck code,32)).each{
+     |r| result << Booking.new(r)
+    }
+    return result
   end
 
 end

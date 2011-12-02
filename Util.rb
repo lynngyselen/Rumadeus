@@ -14,7 +14,7 @@ class Util
 
   def LengthCheck(str,size)
     if(str.length != size)
-      raise "input error"
+      raise "input error:"
     end
     return str
   end  
