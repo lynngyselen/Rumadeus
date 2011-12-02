@@ -29,9 +29,10 @@ end
 class Airport
   
   def initialize(input)
-    @code = Code.new(input[0,3])
-    @city = input[3,20]
-    @country = input[23,20]    
+    input =~ /(\S{3})/
+    @code = Code.new($&)
+    @city = /[A-Za-z ]{20}/.match $'
+    @country = /[A-Za-z ]{20}/.match $'
   end
   
     def to_s
