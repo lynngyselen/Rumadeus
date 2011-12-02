@@ -15,7 +15,7 @@ end
 class Airline
   
   def initialize(input)
-    input =~ /\S{3}/
+    input =~ /\w{3}/
     @code = Code.new($&)
     @name = $'
   end
@@ -29,10 +29,10 @@ end
 class Airport
   
   def initialize(input)
-    input =~ /(\S{3})/
-    @code = Code.new($&)
-    @city = /[A-Za-z ]{20}/.match $'
-    @country = /[A-Za-z ]{20}/.match $'
+    input =~ /(\w{3})([A-Za-z ]{20})([A-Za-z ]{20})/
+    @code = Code.new($1)
+    @city = $2
+    @country = $3
   end
   
     def to_s
@@ -43,9 +43,9 @@ end
 
 class Time
   def initialize(input)
-    input = Util.new.LengthCheck(input,5)
-    @hour = input[0,2]
-    @minute = input[3,2]
+    input =~ /(\d{2})(:)(\d{2})/
+    @hour = $1
+    @minute = $3
   end
   
   def to_s
@@ -57,10 +57,11 @@ end
 class Connection
   
   def initialize(input)
-    input = Util.new.LengthCheck(input,16)
-    @flightnr = input[0,6]
-    @deptime = Time.new(input[6,5])
-    @duration = Time.new(input[11,5])     
+    input =~ /(\w{3}\d{3})([0-9:]{5})([0-9:]{5})/ 
+    @flightnr = $1
+    @deptime = Time.new($2)
+    @duration = Time.new($3)   
+
   end
 
   def getDate
@@ -98,10 +99,10 @@ end
 class Date
   
   def initialize(input)
-    input = Util.new.LengthCheck(input,10)
-    @year = input[0,4]
-    @month = input[5,2]
-    @day = input[8,2]
+    input =~ /(\d+)(-)(\d+)(-)(\d+)/
+    @year = $1
+    @month = $3
+    @day = $5
   end
   
   def to_s
@@ -113,10 +114,10 @@ end
 class Person
   
   def initialize(input)
-    input = Util.new.LengthCheck(input,36)
-    @gender = input[0,1]
-    @firstname = input[1,15]
-    @surname = input[16,20]    
+    input =~ /([MF])([A-Za-z ]{15})([A-Za-z ]{20})/
+    @gender = $1
+    @firstname = $2
+    @surname = $3  
   end
   
     def to_s
@@ -128,17 +129,16 @@ end
 class Booking
   
   def initialize(input)
-    input = Util.new.LengthCheck(input,69)
-    @status = input[0,1]
-    @date = input[1,10]
-    @time = Time.new(input[11,5])
-    @duration = Time.new(input[16,5])
-    @flightnr = input[21,6]
-    @klasse = input[27,1]
-    @person = Person.new(input[28,36])
-    @price = input[64,5]   
+    input =~ /([BH])([0-9-]{10})([0-9:]{5})([0-9:]{5})(\w{3}\d{3})(\w)([A-Za-z ]{36})(\d{5})/
+    @status = $1
+    @date = Date.new($2)
+    @time = Time.new($3)
+    @duration = Time.new($4)
+    @flightnr = $5
+    @klasse = $6
+    @person = Person.new($7)
+    @price = $8  
   end
-  
       def to_s
       return ((@status.to_s)+" "+(@date.to_s)+" "+(@time.to_s)+" "+(@duration.to_s)+" "+(@flightnr.to_s)+" "+(@klasse.to_s)+" "+(@person.to_s)+" "+(@price.to_s))
     end
@@ -148,9 +148,9 @@ end
 class SeatPrice
   
   def initialize(input)
-    input = Util.new.LengthCheck(input,8)
-    @seats = input[0,4]
-    @price = input[4,4]
+    input =~ /(\d{4})(\d{4})/
+    @seats = $1
+    @price = $2
   end
   
   def to_s
