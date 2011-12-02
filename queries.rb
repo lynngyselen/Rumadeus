@@ -1,4 +1,5 @@
 require 'Telnet'
+require 'Objects'
 
 class Query
   def version
@@ -6,7 +7,11 @@ class Query
   end
   
   def listAirlines
-    Telnet.new.query "A"
+    result =[]
+    (Telnet.new.query "A").each{
+     |r| result << Airline.new(r)
+    }
+    return result
   end
   
   def listAirports

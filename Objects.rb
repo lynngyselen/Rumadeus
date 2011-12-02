@@ -1,3 +1,4 @@
+require 'Util'
 
 class Code
 
@@ -5,15 +6,24 @@ class Code
     @code = Util.new.LengthCheck(code,3)
   end	
 
+  def to_s
+    @code
+  end
+
 end
 
 class Airline
   
   def initialize(input)
-    input = Util.new.LengthCheck(input,33)
-    @code = Code.new(input[0,2])
-    @name = input[3,32]
+    input =~ /\S{3}/
+    @code = Code.new($&)
+    @name = $'
   end
+  
+  def to_s
+    return ((@code.to_s) +" "+(@name.to_s))
+  end
+  
 end
 
 class Airport
