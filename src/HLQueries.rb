@@ -3,7 +3,7 @@
 # query multihop BRU, TEL, ...
 # cancel multihop BRU, TEL, ...
 
-require 'queries'
+require 'Queries'
 
 class HLQuery
   # return list of possibilities for each hop
