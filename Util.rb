@@ -1,4 +1,3 @@
-
 class Util
 
   def StringValidate(str,max)
