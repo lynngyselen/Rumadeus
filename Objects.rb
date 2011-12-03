@@ -3,7 +3,7 @@ require 'Util'
 class Code
 
   def initialize(code)
-    @code = Util.new.LengthCheck(code,3)
+    @code = Util.lengthCheck(code, 3)
   end	
 
   def to_s
@@ -35,7 +35,7 @@ class Airport
     @country = $3
   end
   
-    def to_s
+  def to_s
     return ((@code.to_s) +" "+(@city.to_s) +" "+(@country.to_s))
   end
   
@@ -92,7 +92,7 @@ end
 class BookingCode
   
   def initialize(input)
-    @code = Util.new.LengthCheck(input,32)
+    @code = Util.lengthCheck(input,32)
   end
 end
 

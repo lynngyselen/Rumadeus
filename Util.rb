@@ -1,6 +1,6 @@
 class Util
 
-  def StringValidate(str,max)
+  def self.stringValidate(str, max)
     if(str.length > max)
       raise "input error"
     else
@@ -11,7 +11,7 @@ class Util
     return str
   end
 
-  def LengthCheck(str,size)
+  def self.lengthCheck(str, size)
     if(str.length != size)
       raise "input error:"
     end
