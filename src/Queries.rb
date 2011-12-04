@@ -3,13 +3,17 @@ require 'Objects'
 
 class Query
   
+  def initialize
+    @telnet = Telnet.new
+  end
+  
   def version
-    Telnet.new.query "V"
+    @telnet.query "V"
   end
   
   def listAirlines
     result = []
-    (Telnet.new.query "A").each { |r|
+    (@telnet.query "A").each { |r|
       result << Airline.new(r)
     }
     return result
@@ -17,7 +21,7 @@ class Query
   
   def listAirports
     result = []
-    (Telnet.new.query "P").each { |r|
+    (@telnet.query "P").each { |r|
       result << Airport.new(r)
     }
     return result
@@ -25,7 +29,7 @@ class Query
   
   def listDestinations(airport)
     result = []
-    (Telnet.new.query "D" + airport).each { |r|
+    (@telnet.query "D" + airport).each { |r|
       result << Code.new(r)
     }
     return result
@@ -34,7 +38,7 @@ class Query
   
   def listConnections(date,source, destination)
     result = []
-    (Telnet.new.query "C" + source + destination + date).each { |r|
+    (@telnet.query "C" + source + destination + date).each { |r|
       con = Connection.new(r)
       con.setDeparture(source)
       con.setArrival(destination)
@@ -45,16 +49,16 @@ class Query
   end
   
   def listLocations(flight)
-    Telnet.new.query "F" + flight
+    @telnet.query "F" + flight
   end
   
   def listFlightDays(flight)
-    Telnet.new.query "W" + flight 
+    @telnet.query "W" + flight 
   end
   
   def listSeats(date, flight, type)
     result = []
-    (Telnet.new.query "S" + date.to_s + flight + type).each { |r|
+    (@telnet.query "S" + date.to_s + flight + type).each { |r|
       result << SeatPrice.new(r)
     }
     return result
