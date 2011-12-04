@@ -1,5 +1,6 @@
 require 'Telnet'
-require 'Objects'
+
+Dir[File.dirname(__FILE__) + '/utilities/*.rb'].each {|file| require file }
 
 class Query
   
