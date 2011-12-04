@@ -40,9 +40,9 @@ class Query
     result = []
     (@telnet.query "C" + source + destination + date).each { |r|
       con = Connection.new(r)
-      con.setDeparture(source)
-      con.setArrival(destination)
-      con.setDate(Date.new(date))
+      con.departure = source
+      con.arrival = destination
+      con.date = Date.new(date)
       result << con
     }
     return result

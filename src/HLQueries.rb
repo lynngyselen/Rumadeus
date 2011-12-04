@@ -3,16 +3,16 @@
 # query multihop BRU, TEL, ...
 # cancel multihop BRU, TEL, ...
 
-require 'Queries'
+require 'Query'
 
 class HLQuery
   # return list of possibilities for each hop
-  def multihop(date, source, destination1, *otherDestinations)
+  def multihop(date, source, destination, *destinations)
     result = []
-    result << Query.new.listConnections(date,source, destination1)
+    result << Query.new.listConnections(date, source, destination)
     
-    tmpSrc = destination1
-    otherDestinations.each { |d|
+    tmpSrc = destination
+    destinations.each { |d|
       result << Query.new.listConnections(date, tmpSrc, d)
       tmpSrc = d
     }
@@ -23,7 +23,7 @@ class HLQuery
   def bestprice(date, source, destination, type)
     result = []
     (Query.new.listConnections(date, source, destination)).each { |c|
-      result << Query.new.listSeats(c.getDate,c.getFlightNr,type)
+      result << Query.new.listSeats(c.date, c.flightNr, type)
     }
     return result    
   end

@@ -6,7 +6,7 @@ class Telnet
   def query(input)
     host = Net::Telnet.new('Host' => 'localhost', 'Port' => 12111)
     
-    return host.respond_to?("cmd") ?
+    host.respond_to?("cmd") ?
         newQuery(input, host) :
         oldQuery(input, host)
   end
@@ -16,7 +16,7 @@ class Telnet
     host.cmd input do |result|
       results << result
     end
-    return results
+    results
   end
   
   def oldQuery(input, host)
@@ -27,7 +27,7 @@ class Telnet
     end
     host.flush
     host.close
-    return results
+    results
   end
   
 end

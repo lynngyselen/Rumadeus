@@ -21,7 +21,7 @@ class Airline
   end
   
   def to_s
-    return ((@code.to_s) +" "+(@name.to_s))
+    (@code.to_s) + " " + (@name.to_s)
   end
   
 end
@@ -36,7 +36,7 @@ class Airport
   end
   
   def to_s
-    return ((@code.to_s) +" "+(@city.to_s) +" "+(@country.to_s))
+    (@code.to_s) + " " + (@city.to_s) + " " + (@country.to_s)
   end
   
 end
@@ -49,7 +49,7 @@ class Time
   end
   
   def to_s
-    return ((@hour.to_s) +":"+(@minute.to_s))
+    (@hour.to_s) + ":" + (@minute.to_s)
   end
   
 end
@@ -61,36 +61,19 @@ class Connection
     @flightnr = $1
     @deptime = Time.new($2)
     @duration = Time.new($3)   
-
-  end
-
-  def getDate
-    return @date
-  end
-
-  def getFlightNr
-    return @flightnr
-  end
-
-  def setDate(date)
-    @date = date
   end
   
-  def setDeparture(dep)
-    @departure = dep
+  attr_accessor :date, :departure, :arrival
+  attr_reader :flightnr 
+  
+  def to_s
+    (@date.to_s) + " " + (@departure.to_s) + " " + (@arrival.to_s) + " " + 
+      (@flightnr.to_s) + " " + (@deptime.to_s) + " " + (@duration.to_s)
   end
-
-  def setArrival(ar)
-    @arrival = ar
-  end  
-    def to_s
-      return ((@date.to_s)+" "+(@departure.to_s)+" "+(@arrival.to_s)+" "+(@flightnr.to_s)+" "+(@deptime.to_s) +" "+(@duration.to_s))
-    end
   
 end
 
 class BookingCode
-  
   def initialize(input)
     @code = Util.lengthCheck(input,32)
   end
@@ -106,7 +89,7 @@ class Date
   end
   
   def to_s
-    return ((@year.to_s) +"-"+(@month.to_s)+"-"+(@day.to_s))
+    (@year.to_s) + "-" + (@month.to_s) + "-" + (@day.to_s)
   end
   
 end
@@ -120,9 +103,9 @@ class Person
     @surname = $3  
   end
   
-    def to_s
-      return ((@gender.to_s)+" "+(@firstname.to_s)+" "+(@surname.to_s))
-    end
+  def to_s
+    (@gender.to_s) + " " + (@firstname.to_s) + " " + (@surname.to_s)
+  end
   
 end
 
@@ -139,9 +122,12 @@ class Booking
     @person = Person.new($7)
     @price = $8  
   end
-      def to_s
-      return ((@status.to_s)+" "+(@date.to_s)+" "+(@time.to_s)+" "+(@duration.to_s)+" "+(@flightnr.to_s)+" "+(@klasse.to_s)+" "+(@person.to_s)+" "+(@price.to_s))
-    end
+  
+  def to_s
+    ((@status.to_s) + " " + (@date.to_s) + " " + (@time.to_s) + " " +
+      (@duration.to_s) + " " + (@flightnr.to_s) + " " + (@klasse.to_s) + " " +
+      (@person.to_s) + " " +(@price.to_s))
+  end
   
 end
 
@@ -154,7 +140,7 @@ class SeatPrice
   end
   
   def to_s
-    return ((@seats.to_s)+" "+(@price.to_s))
+    (@seats.to_s) + " " + (@price.to_s)
   end
     
 end

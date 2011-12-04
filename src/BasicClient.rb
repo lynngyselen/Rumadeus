@@ -1,6 +1,6 @@
 require 'Actions'
 require 'Util'
-require 'Queries'
+require 'Query'
 
 #Actions.new.holding "2011-11-05","AFR001","B","M","Dave","Clarke"
 
