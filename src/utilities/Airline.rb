@@ -1,3 +1,5 @@
+require 'utilities/Code'
+
 class Airline
   
   def initialize(input)

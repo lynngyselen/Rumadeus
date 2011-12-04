@@ -1,3 +1,5 @@
+require 'utilities/Code'
+
 class Airport
     
   def initialize(input)

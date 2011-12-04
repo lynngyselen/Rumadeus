@@ -1,3 +1,5 @@
+require 'Util'
+
 class BookingCode
   def initialize(input)
     @code = Util.lengthCheck(input,32)

@@ -7,30 +7,29 @@ require 'Query'
 
 class HLQuery
   
+  def initialize
+    @query = Query.new
+  end
+  
   # return list of possibilities for each hop
-  def multihop(date, source, destination, *destinations)
+  def multihop(date, source, *destinations)
     result = []
-    result << Query.new.listConnections(date, source, destination)
+    tmpSrc = source
     
-    tmpSrc = destination
-    destinations.each { |d|
-      result << Query.new.listConnections(date, tmpSrc, d)
+    destinations.each do |d|
+      result << @query.listConnections(date, tmpSrc, d)
       tmpSrc = d
-    }
-
+    end
+    
     result
   end
   
   def bestprice(date, source, destination, type)
     result = []
-    (Query.new.listConnections(date, source, destination)).each { |c|
-      result << Query.new.listSeats(c.date, c.flightnr, type)
+    (@query.listConnections(date, source, destination)).each { |c|
+      result << @query.listSeats(c.date, c.flightnr, type)
     }
     result    
   end
   
 end
-
-#puts (HLQuery.new.multihop "2012-01-30", "AMS", "CDG", "VIE")
-
-puts (HLQuery.new.bestprice "2012-01-30","CDG", "VIE","E")

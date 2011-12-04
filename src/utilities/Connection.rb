@@ -1,3 +1,5 @@
+require 'utilities/Time'
+
 class Connection
   
   def initialize(input)

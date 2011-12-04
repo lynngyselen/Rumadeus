@@ -1,3 +1,7 @@
+require 'utilities/Date'
+require 'utilities/Time'
+require 'utilities/Person'
+
 class Booking
   
   def initialize(input)

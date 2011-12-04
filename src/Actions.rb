@@ -1,7 +1,6 @@
 require 'Telnet'
 require 'Util'
-
-Dir[File.dirname(__FILE__) + '/utilities/*.rb'].each {|file| require file }
+require 'utilities/Booking'
 
 
 class Actions
@@ -29,12 +28,12 @@ class Actions
 	end
 
   def cancel(code)
-    @telnet.query "X" +(Util.lengthCheck code, 32)
+    @telnet.query "X" + (Util.lengthCheck code, 32)
   end
 
   def query(code)
     result = []
-    (@telnet.query "Q"+(Util.lengthCheck code,32)).each { |r|
+    (@telnet.query "Q" + (Util.lengthCheck code, 32)).each { |r|
       result << Booking.new(r)
     }
     result

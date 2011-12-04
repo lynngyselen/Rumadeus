@@ -1,4 +1,9 @@
 require 'Telnet'
+require 'utilities/Airline'
+require 'utilities/Airport'
+require 'utilities/Code'
+require 'utilities/Connection'
+require 'utilities/SeatPrice'
 
 class Query
   
@@ -34,7 +39,7 @@ class Query
     result
   end
   
-  def listConnections(date,source, destination)
+  def listConnections(date, source, destination)
     result = []
     (@telnet.query "C" + source + destination + date).each { |r|
       con = Connection.new(r)
@@ -62,8 +67,13 @@ class Query
     result
   end
   
-  def combine(&block)
-    instance_eval &block
+  def combine(puts = true, &block)
+    if block_given?
+      out = instance_eval &block
+      if puts
+        puts out
+      end
+    end
   end
   
 end
