@@ -6,6 +6,7 @@
 require 'Query'
 
 class HLQuery
+  
   # return list of possibilities for each hop
   def multihop(date, source, destination, *destinations)
     result = []
@@ -17,7 +18,7 @@ class HLQuery
       tmpSrc = d
     }
 
-    return result
+    result
   end
   
   def bestprice(date, source, destination, type)
@@ -25,9 +26,8 @@ class HLQuery
     (Query.new.listConnections(date, source, destination)).each { |c|
       result << Query.new.listSeats(c.date, c.flightNr, type)
     }
-    return result    
+    result    
   end
-  
   
 end
 

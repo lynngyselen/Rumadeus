@@ -16,7 +16,7 @@ class Query
     (@telnet.query "A").each { |r|
       result << Airline.new(r)
     }
-    return result
+    result
   end
   
   def listAirports
@@ -24,7 +24,7 @@ class Query
     (@telnet.query "P").each { |r|
       result << Airport.new(r)
     }
-    return result
+    result
   end
   
   def listDestinations(airport)
@@ -32,8 +32,7 @@ class Query
     (@telnet.query "D" + airport).each { |r|
       result << Code.new(r)
     }
-    return result
-    
+    result
   end
   
   def listConnections(date,source, destination)
@@ -45,7 +44,7 @@ class Query
       con.date = Date.new(date)
       result << con
     }
-    return result
+    result
   end
   
   def listLocations(flight)
@@ -61,7 +60,7 @@ class Query
     (@telnet.query "S" + date.to_s + flight + type).each { |r|
       result << SeatPrice.new(r)
     }
-    return result
+    result
   end
   
   def combine(&block)

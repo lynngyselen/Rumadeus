@@ -8,13 +8,13 @@ class Util
         str += " "
       end
     end
-    return str
+    str
   end
 
   def self.lengthCheck(str, size)
     if(str.length != size)
       raise "input error:"
     end
-    return str
+    str
   end  
 end

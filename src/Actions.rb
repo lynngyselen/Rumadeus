@@ -9,7 +9,7 @@ class Actions
   end
 
 	def hold(date, flightnumber, klasse, gender, firstname, surname)
-		return @telnet.query "H"
+		@telnet.query "H"
 		  + (Util.lengthCheck date, 10)
       + (Util.lengthCheck fligthnumber, 6)
       + (Util.lengthCheck klasse, 1)
@@ -23,11 +23,11 @@ class Actions
     (@telnet.query "B" + (Util.lengthCheck code, 32)).each { |r|
       result << Booking.new(r)
     }
-    return result
+    result
 	end
 
   def cancel(code)
-    return @telnet.query "X" +(Util.lengthCheck code, 32)
+    @telnet.query "X" +(Util.lengthCheck code, 32)
   end
 
   def query(code)
@@ -35,7 +35,7 @@ class Actions
     (@telnet.query "Q"+(Util.lengthCheck code,32)).each { |r|
       result << Booking.new(r)
     }
-    return result
+    result
   end
 
 end
