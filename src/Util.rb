@@ -13,7 +13,9 @@ module Util
 
   def Util.lengthCheck(str, size)
     if(str.length != size)
-      raise "input error:"
+      raise "input error: the string \"#{str}\" "+
+        "has size #{str.length} " +
+        "instead of #{size}."
     end
     str
   end  

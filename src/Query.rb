@@ -1,7 +1,5 @@
 require 'Telnet'
 
-Dir[File.dirname(__FILE__) + '/utilities/*.rb'].each {|file| require file }
-
 class Query
   
   def initialize

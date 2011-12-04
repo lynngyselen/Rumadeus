@@ -12,9 +12,15 @@ class Telnet
   end
   
   def newQuery(input, host)
+    stringToArray(host.cmd input)
+  end
+  
+  def stringToArray(string)
     results = []
-    host.cmd input do |result|
-      results << result
+    if not string.nil?
+      string.split("\n").each do |result|
+        results << result
+      end
     end
     results
   end
