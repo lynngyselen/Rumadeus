@@ -11,8 +11,12 @@ class Telnet
         oldQuery(input, host)
   end
   
+  # With command, the reply consists of a single multi-line string.
+  # We convert this to an array of lines.
   def newQuery(input, host)
-    stringToArray(host.cmd input)
+    result = stringToArray(host.cmd input)
+    host.close
+    result
   end
   
   def stringToArray(string)
