@@ -8,20 +8,20 @@ class REPL
   
   def run
     while true
-      puts parseInput(input)
+      puts parseInput input
       puts "\n"
     end
   end
   
   def input
-    gets.delete("\n\"").split(%r{[/[[:blank:]]/,]+})
+    (gets.delete "\n\"").split %r{[/[[:blank:]]/,]+}
   end
   
-  def parseInput(input)
-    if not_empty?(input)
-      if @query.respond_to? input.at(0)
+  def parseInput input
+    if not_empty? input
+      if @query.respond_to? input.at 0
         begin
-          @query.send(*input)
+          query input
         rescue ArgumentError
           "You did not supply the correct amount of arguments."
         end
@@ -31,8 +31,17 @@ class REPL
     end
   end
   
-  def not_empty?(input)
-    input.length > 0 and not input.at(0).nil?
+  def query input
+    out = @query.send *input
+    if out.empty?
+      "(Empty result.)"
+    else
+      out
+    end
+  end
+  
+  def not_empty? input
+    input.length > 0 and not (input.at 0).nil?
   end
   
 end
