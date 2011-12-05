@@ -30,8 +30,52 @@ class HLQuery
     @query.listConnections(date, source, destination).each { |c|
       result << @query.listSeats(c.date, c.flightnr, type)
     }
-    result    
+    result.min    
   end
+  
+  def helper(source,destination,stops)
+      result =[]
+      if(stops==0)
+        if(Query.new.listDestinations(source).index(Code.new(destination))!=nil)
+          result = [source,destination]
+        end
+      else
+        (Query.new.listDestinations(source)).each{
+        |c|
+        begin
+        tmp =helper(c.to_s,destination,stops-1)
+        tmp.each{
+          |d|
+            result << ([source] | d)
+        }
+        rescue => e
+          result << ([source]|tmp)
+        end
+          #result << tmp
+         }
+        
+      end
+        result
+  end
+
+  def withStops(date,source,destination,stops)
+      result =[]
+      helper(source,destination,stops).each{
+        |h|
+          str=""
+          (3..h.length).each do |i|
+            str+=h[i-1]
+          end
+          if (str !="")
+            result << multihop(date,h[0],h[1],str)
+          else
+            result << multihop(date,h[0],h[1])
+          end
+      }
+     result
+      
+  end
+  
   
   def method_missing *args
     Actions.new.send *args
