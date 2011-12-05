@@ -1,22 +1,42 @@
 require 'Query'
 
-query = Query.new
-
-begin
-  input = gets.delete("\n\"").split(%r{[/[[:blank:]]/,]+})
+class REPL
   
-  if not input.at(0).nil?
-    if input.length > 0
-      if query.respond_to? input.at(0)
+  def initialize
+    @query = Query.new
+  end
+  
+  def run
+    while true
+      puts parseInput(input)
+      puts "\n"
+    end
+  end
+  
+  def input
+    gets.delete("\n\"").split(%r{[/[[:blank:]]/,]+})
+  end
+  
+  def parseInput(input)
+    if not_empty?(input)
+      if @query.respond_to? input.at(0)
         begin
-          puts query.send(*input)
+          @query.send(*input)
         rescue ArgumentError
-          puts "You did not supply the correct amount of arguments."
+          "You did not supply the correct amount of arguments."
         end
       else
-        puts "This command does not exist."
+        "This command does not exist."
       end
     end
   end
-  puts "\n"
-end while true
+  
+  def not_empty?(input)
+    input.length > 0 and not input.at(0).nil?
+  end
+  
+end
+
+if __FILE__ == $0
+  REPL.new.run
+end
