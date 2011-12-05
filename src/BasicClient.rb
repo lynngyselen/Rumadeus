@@ -25,4 +25,5 @@ Query.new.combine do
   listDestinations "VIE"
   listConnections "2012-01-31","TEG","AMS"
   listAirlines
+  listAirports
 end

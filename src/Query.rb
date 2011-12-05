@@ -4,6 +4,7 @@ require 'utilities/Airport'
 require 'utilities/Code'
 require 'utilities/Connection'
 require 'utilities/SeatPrice'
+require 'utilities/Date'
 
 class Query
   
