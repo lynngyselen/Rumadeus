@@ -1,4 +1,5 @@
 require 'Telnet'
+require 'HLQuery'
 require 'utilities/Airline'
 require 'utilities/Airport'
 require 'utilities/Code'
@@ -75,6 +76,10 @@ class Query
         puts out
       end
     end
+  end
+  
+  def method_missing *args
+    HLQuery.new.send *args
   end
   
 end

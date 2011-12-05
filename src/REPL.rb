@@ -1,4 +1,5 @@
 require 'Query'
+require 'Util'
 
 class REPL
   
@@ -19,14 +20,12 @@ class REPL
   
   def parseInput input
     if not_empty? input
-      if @query.respond_to? input.at 0
-        begin
-          query input
-        rescue ArgumentError
-          "You did not supply the correct amount of arguments."
-        end
-      else
-        "This command does not exist."
+      begin
+        query input
+      rescue ArgumentError
+        "You did not supply the correct amount of arguments."
+      rescue Util::InvalidInputException
+        "Your arguments are invalid..."
       end
     end
   end

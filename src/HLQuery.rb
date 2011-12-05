@@ -4,6 +4,7 @@
 # cancel multihop BRU, TEL, ...
 
 require 'Query'
+require 'Actions'
 
 class HLQuery
   
@@ -26,10 +27,14 @@ class HLQuery
   
   def bestprice(date, source, destination, type)
     result = []
-    (@query.listConnections(date, source, destination)).each { |c|
+    @query.listConnections(date, source, destination).each { |c|
       result << @query.listSeats(c.date, c.flightnr, type)
     }
     result    
+  end
+  
+  def method_missing *args
+    Actions.new.send *args
   end
   
 end

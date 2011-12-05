@@ -3,7 +3,7 @@ require 'utilities/Time'
 class Connection
   
   def initialize(input)
-    input =~ /(\w{3}\d{3})([0-9:]{5})([0-9:]{5})/ 
+    input =~ /(\w{3}\d{3})([0-9:]{5})([0-9:]{5})/
     @flightnr = $1
     @deptime = Time.new($2)
     @duration = Time.new($3)   

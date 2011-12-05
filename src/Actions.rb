@@ -38,5 +38,9 @@ class Actions
     }
     result
   end
+  
+  def method_missing *args
+    "No such command...\n"
+  end
 
 end
