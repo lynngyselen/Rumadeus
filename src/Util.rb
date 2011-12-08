@@ -17,8 +17,18 @@ module Util
         "has size #{str.length} instead of #{size}."
     end
     str
-  end  
+  end
   
   class InvalidInputException < StandardError; end
+  
+  class ServerError < StandardError
+    
+    attr_reader :errorMsg
+    
+    def initialize (errorMsg)
+      @errorMsg = errorMsg
+      @generalMsg = generalMsg
+    end
+  end
   
 end

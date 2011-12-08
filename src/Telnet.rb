@@ -10,27 +10,18 @@ class Telnet
         newQuery(input, host) :
         oldQuery(input, host)
         
-    if (result.at 0).start_with? "ERR"
-      raise Util::InvalidInputException, "Server gave error #{result}"
+    if not result.empty? and (result.at 0).start_with? "ERR"
+      raise Util::ServerError.new(result.at 0)
     end
+    result
   end
   
   # With command, the reply consists of a single multi-line string.
   # We convert this to an array of lines.
   def newQuery(input, host)
-    result = stringToArray(host.cmd input)
-    host.close
-    result
-  end
-  
-  def stringToArray string
-    results = []
-    if not string.nil?
-      (string.split "\n").each do |result|
-        results << result
-      end
-    end
-    results
+    output = host.cmd input
+    close host
+    output.nil? ? [] : output.split("\n")
   end
   
   def oldQuery(input, host)
@@ -42,6 +33,12 @@ class Telnet
     host.flush
     host.close
     results
+  end
+  
+  def close host
+    if host.respond_to? "close"
+      host.close
+    end
   end
   
 end

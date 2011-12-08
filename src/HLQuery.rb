@@ -30,7 +30,7 @@ class HLQuery
     @query.listConnections(date, source, destination).each { |c|
       result << @query.listSeats(c.date, c.flightnr, type)
     }
-    result.min    
+    result.min || []
   end
   
   def helper(source, destination, stops)

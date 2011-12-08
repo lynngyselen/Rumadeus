@@ -14,33 +14,37 @@ class REPL
     end
   end
   
+  # Remove newline and quote characters and split on any combination of
+  # whitespace and commas. 
   def input
     (gets.delete "\n\"").split %r{[/[[:blank:]]/,]+}
   end
   
   def parseInput input
-    if not_empty? input
+    if not empty? input
       begin
         query input
       rescue ArgumentError
         "You did not supply the correct amount of arguments."
       rescue Util::InvalidInputException
         "Your arguments are invalid..."
+      rescue Util::ServerError => e
+        "Server error: #{e.errorMsg}"
       end
     end
   end
   
   def query input
     out = @query.send *input
-    if out.empty?
+    if empty? out
       "(Empty result.)"
     else
       out
     end
   end
   
-  def not_empty? input
-    input.length > 0 and not (input.at 0).nil?
+  def empty? input
+    (input.empty? or (input.at 0).nil?)
   end
   
 end

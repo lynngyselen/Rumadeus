@@ -21,7 +21,7 @@ class Actions
 	
 	def book(code)
 	  result = []
-    (@telnet.query "B" + (Util.lengthCheck code, 32)).each { |r|
+    (@telnet.query "B" + (Util.lengthCheck code, 32) || []).each { |r|
       result << Booking.new(r)
     }
     result
@@ -33,14 +33,14 @@ class Actions
 
   def query(code)
     result = []
-    (@telnet.query "Q" + (Util.lengthCheck code, 32)).each { |r|
+    (@telnet.query "Q" + (Util.lengthCheck code, 32) || []).each { |r|
       result << Booking.new(r)
     }
     result
   end
   
   def method_missing *args
-    "No such command...\n"
+    ["No such command..."]
   end
 
 end
