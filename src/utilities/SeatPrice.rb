@@ -1,24 +1,15 @@
 class SeatPrice
   include Comparable
   
+  attr_reader :price
+  
   def initialize input
-    input =~ /(\d{4})(\d{4})/
-    @seats = $1
-    @price = $2
+    @seats = input[0, 3].to_i
+    @price = input[3, 8].to_i
   end
   
   def <=> other
-    if self.size < other.getPrice
-      -1
-    elsif self.size > other.getPrice
-      1
-    else
-      0
-    end
-  end
-  
-  def getPrice
-    @price
+    self.price <=> other.price
   end
   
   def to_s
