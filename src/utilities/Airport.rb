@@ -3,14 +3,13 @@ require 'utilities/Code'
 class Airport
     
   def initialize(input)
-    input =~ /(\w{3})([A-Za-z ]{20})([A-Za-z ]{20})/
-    @code = Code.new($1)
-    @city = $2
-    @country = $3
+    @code = Code.new input[0,3]
+    @city = input[3,23]
+    @country = input[23,43]
   end
   
   def to_s
-    (@code.to_s) + " " + (@city.to_s) + " " + (@country.to_s)
+    "#{@code.to_s} #{@city} #{@country}"
   end
   
 end

@@ -13,7 +13,7 @@ class SeatPrice
   end
   
   def to_s
-    (@seats.to_s) + " " + (@price.to_s)
+    "#{@seats.to_s} #{@price.to_s}"
   end
     
 end

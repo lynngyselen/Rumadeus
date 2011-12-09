@@ -6,21 +6,19 @@ require 'utilities/Person'
 class Booking
   
   def initialize(input)
-    input =~ /([BH])([0-9-]{10})([0-9:]{5})([0-9:]{5})(\w{3}\d{3})(\w)([A-Za-z ]{36})(\d{5})/
-    @status = $1
-    @date = Date.parse $2
-    @time = TimeM::parseTime $3
-    @duration = TimeM::parseDuration $4
-    @flightCode = $5
-    @klasse = $6
-    @person = Person.new $7
-    @price = $8  
+    @status = input[0]
+    @date = Date.parse input[1,11]
+    @time = TimeM::parseTime input[11,16]
+    @duration = TimeM::parseDuration input[16,21]
+    @flightCode = input[21,27]
+    @klasse = input[27]
+    @person = Person.new input[28,64]
+    @price = input[64, 69]
   end
   
   def to_s
-    ((@status.to_s) + " " + (@date.to_s) + " " + (@time.to_s) + " " +
-      (@duration.to_s) + " " + (@flightCode.to_s) + " " + (@klasse.to_s) + " " +
-      (@person.to_s) + " " +(@price.to_s))
+    "#{@status} #{@date.to_s} #{@time.to_s} #{@duration.to_s} " + 
+      "#{@flightCode} #{@klasse} #{@person.to_s} #{@price}"
   end
   
 end
