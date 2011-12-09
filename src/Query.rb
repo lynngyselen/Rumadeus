@@ -1,3 +1,5 @@
+require 'date'
+
 require 'Telnet'
 require 'HLQuery'
 require 'utilities/Airline'
@@ -5,7 +7,6 @@ require 'utilities/Airport'
 require 'utilities/Code'
 require 'utilities/Connection'
 require 'utilities/SeatPrice'
-require 'utilities/Date'
 
 class Query
   
@@ -47,7 +48,7 @@ class Query
       con = Connection.new(r)
       con.departure = source
       con.arrival = destination
-      con.date = Date.new(date)
+      con.date = Date.parse(date)
       result << con
     }
     result

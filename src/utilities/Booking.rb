@@ -1,4 +1,5 @@
-require 'utilities/Date'
+require 'date'
+
 require 'utilities/Time'
 require 'utilities/Person'
 
@@ -7,7 +8,7 @@ class Booking
   def initialize(input)
     input =~ /([BH])([0-9-]{10})([0-9:]{5})([0-9:]{5})(\w{3}\d{3})(\w)([A-Za-z ]{36})(\d{5})/
     @status = $1
-    @date = Date.new($2)
+    @date = Date.parse($2)
     @time = Time.new($3)
     @duration = Time.new($4)
     @flightnr = $5
