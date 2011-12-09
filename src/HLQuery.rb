@@ -56,8 +56,6 @@ class HLQuery
     result
   end
   
-  def
-  
   def hasConnection(source, destination)
     not @query.listDestinations(source).index(Code.new(destination)).nil?
   end
@@ -83,7 +81,3 @@ class HLQuery
   end
   
 end
-
-p HLQuery.new.helper("CDG","VIE",2)
-
-
