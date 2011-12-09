@@ -4,9 +4,7 @@ module Util
     if str.length > max
       raise InvalidInputException, "input too long..."
     else
-      for i in 1 .. (max - str.length)
-        str += " "
-      end
+      str + (" " * (max - str.length))
     end
     str
   end
