@@ -1,6 +1,8 @@
 require 'Util'
 
 class Code
+  
+  attr_reader :code
 
   def initialize(code)
     @code = Util.lengthCheck(code, 3)
@@ -11,7 +13,7 @@ class Code
   end
   
   def == other
-    (self.to_s == other.to_s)
+    self.code == other.code
   end
 
 end
