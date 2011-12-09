@@ -11,7 +11,7 @@ class Booking
     @date = Date.parse($2)
     @time = Time.new($3)
     @duration = Time.new($4)
-    @flightnr = $5
+    @flightCode = $5
     @klasse = $6
     @person = Person.new($7)
     @price = $8  
@@ -19,7 +19,7 @@ class Booking
   
   def to_s
     ((@status.to_s) + " " + (@date.to_s) + " " + (@time.to_s) + " " +
-      (@duration.to_s) + " " + (@flightnr.to_s) + " " + (@klasse.to_s) + " " +
+      (@duration.to_s) + " " + (@flightCode.to_s) + " " + (@klasse.to_s) + " " +
       (@person.to_s) + " " +(@price.to_s))
   end
   
