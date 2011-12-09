@@ -29,7 +29,7 @@ class REPL
       rescue Util::InvalidInputException
         "Your arguments are invalid..."
       rescue Util::ServerError => e
-        "Server error: #{e.errorMsg}"
+        e.cause
       end
     end
   end

@@ -1,6 +1,6 @@
 module Util
 
-  def Util.stringValidate(str, max)
+  def Util::stringValidate(str, max)
     if(str.length > max)
       raise InvalidInputException, "input too long..."
     else
@@ -11,7 +11,7 @@ module Util
     str
   end
 
-  def Util.lengthCheck(str, size)
+  def Util::lengthCheck(str, size)
     if(str.length != size)
       raise InvalidInputException, "input error: the string \"#{str}\" "+
         "has size #{str.length} instead of #{size}."
@@ -25,9 +25,28 @@ module Util
     
     attr_reader :errorMsg
     
+    ERRIM = "ERRIM"
+    ERREC = "ERREC"
+    ERRNR = "ERRNR"
+    ERRXX = "ERRXX"
+    
     def initialize (errorMsg)
       @errorMsg = errorMsg
-      @generalMsg = generalMsg
+    end
+    
+    def cause
+      case @errorMsg
+      when ERRIM
+        "#{ERRIM}: Ill formatted message."
+      when ERREC
+        "#{ERREC}: Empty command."
+      when ERRNR
+        "#{ERRNR}: No results."
+      when ERRXX
+        "#{ERRXX}: Something went wrong badly..."
+      else
+        "Unknown error code."
+      end
     end
   end
   
