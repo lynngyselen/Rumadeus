@@ -33,10 +33,12 @@ class HLQuery
     result.min || []
   end
   
-  def helper(source, destination, stops)
+  def withStops(source, destination, stops)
     result = []
-    if(stops == 0)
-      if(not hasConnection(source, destination))
+    if(source == destination)
+      result =[source]
+    elsif(stops == 0)
+      if(hasConnection(source, destination))
         result = [source, destination]
       end
     else
@@ -54,13 +56,15 @@ class HLQuery
     result
   end
   
+  def
+  
   def hasConnection(source, destination)
-    @query.listDestinations(source).index(Code.new(destination)).nil?
+    not @query.listDestinations(source).index(Code.new(destination)).nil?
   end
 
-  def withStops(date,source,destination,stops)
+  def helper(source,destination,stops)
     result = []
-    helper(source, destination, stops).each { |h|
+    withstops(source, destination, stops).each { |h|
       str=""
       (3..h.length).each do |i|
         str += h[i-1]
@@ -79,3 +83,7 @@ class HLQuery
   end
   
 end
+
+p HLQuery.new.helper("CDG","VIE",2)
+
+
