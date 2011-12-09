@@ -9,5 +9,9 @@ class Code
   def to_s
     @code
   end
+  
+  def == other
+    (self.to_s == other.to_s)
+  end
 
 end
