@@ -2,9 +2,11 @@ require 'utilities/Code'
 
 class Airline
   
-  def initialize(input)
-    @code = input[0,3]
-    @name = input[4,34]
+  attr_reader :code, :name
+  
+  def initialize input
+    @code = input[0..2]
+    @name = input[3..32]
   end
   
   def to_s

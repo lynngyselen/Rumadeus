@@ -1,17 +1,16 @@
 module Util
 
-  def Util::stringValidate(str, max)
-    if str.length > max
+  def Util::stringValidate(str, length)
+    if str.length > length
       raise InvalidInputException, "input too long..."
     else
-      str + (" " * (max - str.length))
+      str + (" " * (length - str.length))
     end
-    str
   end
 
   def Util::lengthCheck(str, size)
     if str.length != size
-      raise InvalidInputException, "input error: the string \"#{str}\" "+
+      raise InvalidInputException, "input error: the string \"#{str}\" " +
         "has size #{str.length} instead of #{size}."
     end
     str

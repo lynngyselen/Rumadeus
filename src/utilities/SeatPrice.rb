@@ -1,11 +1,11 @@
 class SeatPrice
   include Comparable
   
-  attr_reader :price
+  attr_reader :seats, :price
   
   def initialize input
-    @seats = input[0, 3].to_i
-    @price = input[3, 8].to_i
+    @seats = input[0..2].to_i
+    @price = input[3..7].to_i
   end
   
   def <=> other

@@ -28,7 +28,7 @@ class HLQuery
   def bestprice(date, source, destination, type)
     result = []
     @query.listConnections(date, source, destination).each { |c|
-      result << @query.listSeats(c.date, c.flightCode, type)
+      result << @query.listSeats(c.date, c.flightcode, type)
     }
     result.min || []
   end

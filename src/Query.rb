@@ -45,15 +45,12 @@ class Query
   def listConnections(date, source, destination)
     result = []
     ((@telnet.query "C" + source + destination + date) || []).each { |r|
-      con = Connection.new(r)
-      con.departure = source
-      con.arrival = destination
-      con.date = Date.parse(date)
+      con = Connection.new(r, source, destination, date)
       result << con
     }
     result
   end
-  
+    
   def listLocations(flight)
     @telnet.query "F" + flight
   end

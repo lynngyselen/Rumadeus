@@ -1,11 +1,13 @@
 require 'utilities/Code'
 
 class Airport
+  
+  attr_reader :code, :city, :country
     
-  def initialize(input)
-    @code = Code.new input[0,3]
-    @city = input[3,23]
-    @country = input[23,43]
+  def initialize input
+    @code = Code.new input[0..2]
+    @city = input[3..22]
+    @country = input[23..42]
   end
   
   def to_s

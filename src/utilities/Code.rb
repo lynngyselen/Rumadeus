@@ -4,7 +4,7 @@ class Code
   
   attr_reader :code
 
-  def initialize(code)
+  def initialize code
     @code = Util::lengthCheck(code, 3)
   end	
 
