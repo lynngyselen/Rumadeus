@@ -17,7 +17,7 @@ class REPL
   # Remove newline and quote characters and split on any combination of
   # whitespace and commas. 
   def input
-    (gets.delete "\n\"").split %r{[[[:blank:]],]+}
+    (gets.delete "\n\"").split /[[[:blank:]],]+/
   end
   
   def parseInput input
@@ -44,7 +44,7 @@ class REPL
   end
   
   def empty? input
-    (input.empty? or (input.at 0).nil?)
+    input.empty? or (input.at 0).nil?
   end
   
 end
