@@ -53,11 +53,13 @@ class TimeTest < Test::Unit::TestCase
   
   def test_to_s
     assert_equal(@timeStr1, @time1.to_s)
+    assert_equal(@timeStr2, @time2.to_s)
+    assert_equal(@timeStr3, @time3.to_s)
+    
     
     assert_equal(@durStr1, @dur1.to_s)
     assert_equal(@durStr2, @dur2.to_s)
     assert_equal(@durStr3, @dur3.to_s)
-    
   end
   
   def test_compare
