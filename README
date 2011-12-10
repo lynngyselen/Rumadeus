@@ -1,5 +1,5 @@
 To run the REPL, execute in the src directory
-  ruby -I . src/clients/REPL.rb
+  ruby -I . ./clients/REPL.rb
   
 To run the test suite, execute in that same directory
   ruby -I . ../test/ts_rumadeus.rb
