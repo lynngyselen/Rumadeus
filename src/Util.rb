@@ -20,7 +20,7 @@ module Util
   
   class ServerError < StandardError
     
-    attr_reader :errorMsg
+    attr_reader :cause
     
     ERRIM = "ERRIM"
     ERREC = "ERREC"
@@ -28,11 +28,11 @@ module Util
     ERRXX = "ERRXX"
     
     def initialize errorMsg
-      @errorMsg = errorMsg
+      @cause = init_cause errorMsg
     end
     
-    def cause
-      case @errorMsg
+    def init_cause errorMsg
+      case errorMsg
         when ERRIM
           "#{ERRIM}: Ill formatted message."
         when ERREC

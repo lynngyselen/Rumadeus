@@ -1,5 +1,6 @@
 require 'date'
 
+require 'Util'
 require 'Telnet'
 require 'HLQuery'
 require 'utilities/Airline'
@@ -59,12 +60,43 @@ class Query
     @telnet.query "W" + flight 
   end
   
-  def listSeats(date, flight, type)
+  def listSeats(inDate, flight, type, incrStr = "0")
     result = []
-    (@telnet.query "S" + date.to_s + flight + type).each { |r|
-      result << SeatPrice.new(r)
-    }
+    incr = incrStr.to_i
+    (-incr .. incr).each do |i|
+      date = (parse_date inDate) + i
+      result.concat get_seats_safely(date.to_s, flight, type)
+    end
     result
+  end
+  
+  def parse_date date
+    begin
+      Date.parse date
+    rescue ArgumentError
+      raise Util::InvalidInputException
+    end
+  end
+  
+  def get_seats_safely(date, flight, type)
+    result = []
+    begin
+      (@telnet.query "S" + date + flight + type).each { |r|
+        result << SeatPrice.new(r)
+      }
+    rescue Util::ServerError => error
+      handle_server_error_no_errnr error
+    end
+    result
+  end
+  
+  def handle_server_error_no_errnr error
+    case error.cause
+      when Util::ServerError::ERRNR
+        # NO-OP
+      else
+        error.cause
+    end
   end
   
   def combine(puts = true, &block)

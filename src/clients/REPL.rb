@@ -1,3 +1,5 @@
+require 'date'
+
 require 'Query'
 require 'Util'
 
@@ -28,16 +30,29 @@ class REPL
         "You did not supply the correct amount of arguments."
       rescue Util::InvalidInputException
         "Your arguments are invalid..."
-      rescue Util::ServerError => e
-        e.cause
+      rescue Util::ServerError => error
+        handle_server_error error
       end
     end
   end
   
+  def handle_server_error error
+    case error.cause
+      when Util::ServerError::ERRNR
+        empty_result
+      else
+        error.cause
+    end
+  end
+  
+  def empty_result
+    "(Empty result.)"
+  end
+  
   def query input
-    out = @query.send *input
+    out = @query.public_send *input
     if empty? out
-      "(Empty result.)"
+      empty_result
     else
       out
     end

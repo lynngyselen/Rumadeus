@@ -75,8 +75,8 @@ class HLQuery
     result = []
     oridate = DateTime.parse date.to_s 
     for i in 0 .. 6
-      result |= @query.listConnections(date.to_date.to_s,source,destination)
-      date +=1
+      result |= @query.listConnections(date.to_date.to_s, source, destination)
+      date += 1
     end
     tmp = []
     result.each{ |r| 
@@ -87,11 +87,7 @@ class HLQuery
     }
     
     tmp.fold(tmp.at 0) do |acc, conn|
-      if acc.arrival_time > conn.arrival_time
-        conn
-      else
-        acc
-      end 
+      acc.arrival_time > conn.arrival_time ? conn : acc 
     end
   end
   
