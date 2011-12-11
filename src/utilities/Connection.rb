@@ -19,6 +19,7 @@ class Connection
     departure_time = DateTime.parse("#{@date.to_s} #{@deptime.to_s}").to_time
     departure_time += @duration.hours * 60 * 60
     departure_time += @duration.minutes * 60
+    departure_time.to_datetime
   end
   
   def to_s

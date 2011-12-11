@@ -65,4 +65,5 @@ class HLQueryTest < Test::Unit::TestCase
       assert(shortest <= @hlquery.shortestMultiple(@sW_date, p))
     end
   end
+
 end

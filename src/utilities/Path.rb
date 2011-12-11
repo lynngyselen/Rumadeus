@@ -6,7 +6,7 @@ class Path
   def initialize(date, connections)
     @date = date
     @connections = connections
-    @duration = connections[connections.size - 1].arrival_time - date.to_time
+    @duration = connections[connections.size - 1].arrival_time.to_time - date.to_time
   end
   
   def <=> other
