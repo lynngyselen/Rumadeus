@@ -38,7 +38,7 @@ class ConnectionTest < Test::Unit::TestCase
   end
   
   def test_arrival_time
-    expected = (DateTime.parse "2012-01-13 08:32").to_time
+    expected = (DateTime.parse "2012-01-13 08:32")
     assert_equal(expected, @conn.arrival_time)
   end
  

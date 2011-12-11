@@ -62,7 +62,6 @@ class HLQuery
     result = []
     for i in 0 .. (list.size-2)
       tmp =  shortestTwo(dt, list[i], list[i+1])
-      
       if not tmp.nil?
         dt = tmp.arrival_time
         result << tmp
@@ -84,7 +83,8 @@ class HLQuery
       if(dt > oridate)
         tmp << r
       end
-    }    
+    }
+    
     tmp.fold(tmp.at 0) do |acc, conn|
       if acc.arrival_time > conn.arrival_time
         conn
