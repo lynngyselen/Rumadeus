@@ -7,6 +7,7 @@ require 'Query'
 require 'Actions'
 require 'utilities/Path'
 
+# Add fold methods to Array
 class Array
   def foldl(accum, &block)
     each {|value| accum = yield(accum, value)}
@@ -74,7 +75,7 @@ class HLQuery
     result = []
     oridate = DateTime.parse date.to_s 
     for i in 0 .. 6
-      result |= @query.listConnections((Date.parse(date.year.to_s+"-"+date.month.to_s+"-"+date.day.to_s)).to_s,source,destination)
+      result |= @query.listConnections(date.to_date.to_s,source,destination)
       date +=1
     end
     tmp = []
