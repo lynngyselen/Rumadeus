@@ -3,9 +3,8 @@ require 'date'
 require 'utilities/Time'
 
 class Connection
-  include Comparable
   
-  attr_reader :flightcode, :deptime, :duration, :date, :from, :to, :arrival
+  attr_reader :flightcode, :deptime, :duration, :date, :from, :to
   
   def initialize(input, from, to, date)
     @flightcode = input[0..5]
@@ -14,7 +13,12 @@ class Connection
     @from = from
     @to = to
     @date = Date.parse date
-    @arrival = ((DateTime.parse(@date.to_s+" "+@deptime.to_s).to_time + @duration.hours) +@duration.minutes).to_datetime
+  end
+  
+  def arrival_time
+    departure_time = DateTime.parse("#{@date.to_s} #{@deptime.to_s}").to_time
+    departure_time += @duration.hours * 60 * 60
+    departure_time += @duration.minutes * 60
   end
   
   def to_s
@@ -22,8 +26,13 @@ class Connection
       "#{@deptime.to_s} #{@duration.to_s}"
   end
   
-    def <=> other
-      self.arrival <=> other.arrival
-    end
+  def == other
+    self.flightcode == other.flightcode
+    self.deptime == other.deptime
+    self.duration == other.duration
+    self.from == other.from
+    self.to == other.to
+    self.date == other.date
+  end
   
 end

@@ -1,5 +1,6 @@
 
 require "../test/tc_util"
+require "../test/tc_hlquery"
 
 require "../test/utilities/tc_airline"
 require "../test/utilities/tc_airport"
