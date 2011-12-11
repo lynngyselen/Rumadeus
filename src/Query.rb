@@ -20,7 +20,7 @@ class Query
   
   def listAirlines
     result = []
-    (@telnet.query "A" || []).each { |r|
+    (@telnet.query "A").each { |r|
       result << Airline.new(r)
     }
     result
@@ -28,7 +28,7 @@ class Query
   
   def listAirports
     result = []
-    ((@telnet.query "P") || []).each { |r|
+    (@telnet.query "P").each { |r|
       result << Airport.new(r)
     }
     result
@@ -36,7 +36,7 @@ class Query
   
   def listDestinations(airport)
     result = []
-    (@telnet.query "D" + airport || []).each { |r|
+    (@telnet.query "D" + airport).each { |r|
       result << Code.new(r)
     }
     result
@@ -44,7 +44,7 @@ class Query
   
   def listConnections(date, source, destination)
     result = []
-    ((@telnet.query "C" + source + destination + date) || []).each { |r|
+    (@telnet.query "C" + source + destination + date).each { |r|
       con = Connection.new(r, source, destination, date)
       result << con
     }
@@ -61,7 +61,7 @@ class Query
   
   def listSeats(date, flight, type)
     result = []
-    (@telnet.query "S" + date.to_s + flight + type || []).each { |r|
+    (@telnet.query "S" + date.to_s + flight + type).each { |r|
       result << SeatPrice.new(r)
     }
     result

@@ -13,7 +13,9 @@ class Telnet
     if not result.empty? and (result.at 0).start_with? "ERR"
       raise Util::ServerError.new(result.at 0)
     end
-    result
+    
+    # Return an empty array instead of nil when the query has no results.
+    result || []
   end
   
   # With command, the reply consists of a single multi-line string.
