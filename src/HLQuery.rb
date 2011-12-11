@@ -24,7 +24,6 @@ class HLQuery
   
   def initialize
     @query = Query.new
-    @actions = Actions.new
   end
   
   # return list of possibilities for each hop
@@ -123,7 +122,7 @@ class HLQuery
   end
   
   def method_missing *args
-    @actions.send *args
+    Actions.new.send *args
   end
   
 end

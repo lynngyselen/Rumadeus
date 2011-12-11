@@ -11,8 +11,7 @@ require 'utilities/SeatPrice'
 class Query
   
   def initialize
-    @telnet = Telnet.new
-    @hlquery = HLQuery.new
+    @telnet = Telnet.new    
   end
   
   def version
@@ -78,7 +77,7 @@ class Query
   end
   
   def method_missing *args
-    @hlquery.send *args
+    HLQuery.new.send *args
   end
   
 end
