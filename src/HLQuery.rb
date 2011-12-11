@@ -5,6 +5,7 @@
 
 require 'Query'
 require 'Actions'
+require 'utilities/Path'
 
 class HLQuery
   
@@ -33,6 +34,45 @@ class HLQuery
     result.min || []
   end
   
+  def shortestWithStops(date,source,destination,stops)
+    result = []
+    paths = withStops(source, destination, stops)
+    paths.each do |p|
+      t = shortestMultiple(date,p)
+      result << t
+    end
+    result.min
+  end      
+  
+  def shortestMultiple(date,list)
+    DateTime dt = date
+    result = []
+    for i in 0 .. (list.size-2)
+      tmp =  shortestTwo(dt,list[i],list[i+1])
+      dt = tmp.arrival
+      result << tmp
+    end
+    path = Path.new(date,result)
+  end
+  
+  def shortestTwo(date, source, destination)
+    result = []
+    oridate = DateTime.parse(date.to_s) 
+    for i in 0 .. 6
+      result |= @query.listConnections((Date.parse(date.year.to_s+"-"+date.month.to_s+"-"+date.day.to_s)).to_s,source,destination)
+      date +=1
+    end
+    tmp = []
+    result.each{
+      |r| 
+          dt = DateTime.parse(r.date.to_s+" "+r.deptime.to_s)
+          if(dt>oridate)
+            tmp << r
+          end
+    }
+    tmp.min
+  end
+  
   def withStops(source, destination, stops)
     result = []
     if(source == destination)
@@ -43,13 +83,13 @@ class HLQuery
       end
     else
       (@query.listDestinations(source)).each { |c|
+          tmp = withStops(c.to_s, destination, stops-1)
         begin
-          tmp = helper(c.to_s, destination, stops-1)
           tmp.each { |d|
-            result << ([source] | d)
+            result << ([source].concat(d))
           }
         rescue => e
-          result << ([source] | tmp)
+          result << ([source].concat(tmp))
         end
       }
     end
@@ -58,22 +98,6 @@ class HLQuery
   
   def hasConnection(source, destination)
     not @query.listDestinations(source).index(Code.new(destination)).nil?
-  end
-
-  def helper(source,destination,stops)
-    result = []
-    withstops(source, destination, stops).each { |h|
-      str=""
-      (3..h.length).each do |i|
-        str += h[i-1]
-      end
-      if (str != "")
-        result << multihop(date, h[0], h[1], str)
-      else
-        result << multihop(date, h[0], h[1])
-      end
-     }
-     result 
   end
   
   def method_missing *args
