@@ -16,6 +16,28 @@ module Util
     str
   end
   
+  def Util::method_parameters object
+    result = []
+    object.methods.each do |method|
+      result << "#{method.to_s} #{parameters(object, method)}"
+    end
+    result
+  end
+  
+  def Util::parameters(object, method)
+    object.class.instance_method(method).parameters.map { |param|
+      transform_parameter param
+    }.join(" ")
+  end
+  
+  def Util::transform_parameter param
+    if (param.at 0) == :req
+      (param.at 1).to_s
+    elsif (param.at 0) == :opt
+      "(#{(param.at 1).to_s})"
+    end
+  end
+  
   class InvalidInputException < StandardError; end
   
   class ServerError < StandardError

@@ -1,7 +1,7 @@
 require 'date'
 
+require 'AbstractQuery'
 require 'Util'
-require 'Telnet'
 require 'HLQuery'
 require 'utilities/Airline'
 require 'utilities/Airport'
@@ -9,10 +9,10 @@ require 'utilities/Code'
 require 'utilities/Connection'
 require 'utilities/SeatPrice'
 
-class Query
+class Query < AbstractQuery
   
   def initialize
-    @telnet = Telnet.new    
+    super
   end
   
   def version
@@ -108,8 +108,8 @@ class Query
     end
   end
   
-  def method_missing *args
-    HLQuery.new.send *args
+  def delegate
+    HLQuery.new
   end
   
 end

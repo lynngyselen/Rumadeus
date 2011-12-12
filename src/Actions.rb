@@ -1,12 +1,13 @@
-require 'Telnet'
+require 'AbstractQuery'
+require 'LastResort'
 require 'Util'
 require 'utilities/Booking'
 
 
-class Actions
+class Actions < AbstractQuery
     
   def initialize
-    @telnet = Telnet.new
+    super
   end
 
 	def hold(date, flightnumber, klasse, gender, firstname, surname)
@@ -21,7 +22,7 @@ class Actions
 	
 	def book(code)
 	  result = []
-    (@telnet.query "B" + (Util::lengthCheck code, 32) || []).each { |r|
+    (@telnet.query "B" + (Util::lengthCheck code, 32)).each { |r|
       result << Booking.new(r)
     }
     result
@@ -33,14 +34,18 @@ class Actions
 
   def query(code)
     result = []
-    (@telnet.query "Q" + (Util::lengthCheck code, 32) || []).each { |r|
+    (@telnet.query "Q" + (Util::lengthCheck code, 32)).each { |r|
       result << Booking.new(r)
     }
     result
   end
   
-  def method_missing *args
-    ["No such command..."]
+  # The chain of command can be extended by overriding or monkey patching this
+  # method to insert any other class.
+  # The extendor is responsible for proper handling of
+  # non-existing classes then.
+  def delegate
+    LastResort.new
   end
 
 end
