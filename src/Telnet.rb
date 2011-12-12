@@ -6,12 +6,14 @@ class Telnet
   def query input
     host = Net::Telnet.new('Host' => 'localhost', 'Port' => 12111)
     
-    result = host.respond_to?("cmd") ?
-        newQuery(input, host) :
+    result = if host.respond_to? :cmd then
+        newQuery(input, host)
+      else
         oldQuery(input, host)
+      end
         
     if not result.empty? and (result.at 0).start_with? "ERR"
-      raise Util::ServerError.new(result.at 0)
+      raise Util::ServerError.new (result.at 0)
     end
     
     # Return an empty array instead of nil when the query has no results.
