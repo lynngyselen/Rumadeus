@@ -6,4 +6,8 @@ class LastResort
     ["No such command..."]
   end
   
+  def help
+    []
+  end
+  
 end

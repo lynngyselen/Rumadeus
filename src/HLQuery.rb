@@ -3,6 +3,7 @@
 # query multihop BRU, TEL, ...
 # cancel multihop BRU, TEL, ...
 
+require 'AbstractQuery'
 require 'Query'
 require 'Actions'
 require 'utilities/Path'
@@ -21,7 +22,7 @@ class Array
   alias fold :foldl
 end
 
-class HLQuery
+class HLQuery < AbstractQuery
   
   def initialize
     @query = Query.new
@@ -116,10 +117,6 @@ class HLQuery
   
   def hasConnection(source, destination)
     not @query.listDestinations(source).index(Code.new(destination)).nil?
-  end
-  
-  def method_missing *args
-    delegate.public_send *args
   end
   
   def delegate
