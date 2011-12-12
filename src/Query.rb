@@ -64,7 +64,7 @@ class Query
     result = []
     incr = incrStr.to_i
     (-incr .. incr).each do |i|
-      date = (parse_date inDate) + i
+      date = (parse_date inDate.to_s) + i
       result.concat get_seats_safely(date.to_s, flight, type)
     end
     result
