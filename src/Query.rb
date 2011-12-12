@@ -109,7 +109,11 @@ class Query
   end
   
   def method_missing *args
-    HLQuery.new.send *args
+    delegate.public_send *args
+  end
+  
+  def delegate
+    HLQuery.new
   end
   
 end

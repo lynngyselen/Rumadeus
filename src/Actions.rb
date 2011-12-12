@@ -1,4 +1,5 @@
 require 'Telnet'
+require 'LastResort'
 require 'Util'
 require 'utilities/Booking'
 
@@ -40,7 +41,15 @@ class Actions
   end
   
   def method_missing *args
-    ["No such command..."]
+    delegate.public_send *args
+  end
+  
+  # The chain of command can be extended by overriding or monkey patching this
+  # method to insert any other class.
+  # The extendor is responsible for proper handling of
+  # non-existing classes then.
+  def delegate
+    LastResort.new
   end
 
 end
