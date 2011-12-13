@@ -90,10 +90,10 @@ class HLQuery < AbstractQuery
       result << t
     end
     result.min
-  end      
+  end
   
   def shortestMultiple(date, list)
-    DateTime dt = date
+    dt = date
     result = []
     for i in 0 .. (list.size-2)
       tmp =  shortestTwo(dt, list[i], list[i+1])
