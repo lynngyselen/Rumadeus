@@ -26,6 +26,7 @@ class HLQuery < AbstractQuery
   
   def initialize
     @query = Query.new
+    @action = Actions.new
   end
   
   # return list of possibilities for each hop
@@ -47,6 +48,38 @@ class HLQuery < AbstractQuery
       result << @query.listSeats(c.date.to_s, c.flightcode, type)
     }
     result.min || []
+  end
+  
+  def holdMulti(connections,klasse,person)
+    holds=[]
+    connections.each do |c|
+      begin
+      holds <<@action.hold(c.date,c.flightcode,klasse,person.gender,person.firstname,person.surname)
+      rescue
+        cancelMulti(holds)
+      end
+    end
+    holds
+  end
+  
+  def bookMulti(holds)
+    bookings = []
+    begin
+    holds.each do |b|
+      bookings << @action.book(b)
+    end
+    rescue
+    end
+    bookings
+  end
+  
+  def cancelMulti(holds)
+    begin
+      holds.each do |b|
+        @action.cancel(b)
+      end
+    rescue    
+    end
   end
   
   def shortestWithStops(date, source, destination, stops)
