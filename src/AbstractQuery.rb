@@ -1,4 +1,5 @@
 require 'Telnet'
+require 'Util'
 
 class AbstractQuery
   
@@ -8,9 +9,13 @@ class AbstractQuery
   
   # Subclasses should make sure to implement the delegate method,
   # otherwise we will probably get an infinite loop here
-  def method_missing *args
+  def method_missing(name_sym, *args)
     # puts "Method missing: (#{self}) delegating call #{args.join " "}"
-    delegate.public_send *args
+    if name_sym.to_s.start_with? Util::QUERY_ID
+      delegate.public_send(name_sym, *args)
+    else
+      super
+    end
   end
   
   def help
