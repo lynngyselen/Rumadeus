@@ -3,7 +3,6 @@ require 'LastResort'
 require 'Util'
 require 'utilities/Booking'
 
-
 class Actions < AbstractQuery
     
   def initialize
@@ -19,8 +18,8 @@ class Actions < AbstractQuery
       (Util::stringValidate firstname, 15) +
       (Util::stringValidate surname, 20)
 		result = @telnet.query query
-		if result.length > 0 and (result.at 0).start_with? "S"
-		  "Success: #{[(result.at 0)[1..(result.at 0).length]]}"
+		if result.length > 0 and (code = result.at 0).start_with? "S"
+		  ["Success: #{code[1..code.length]}"]
 		else
 		  result
 		end
@@ -37,7 +36,7 @@ class Actions < AbstractQuery
   def cancel(code)
     result = @telnet.query ("X" + (Util::lengthCheck code, 32))
     if result.include? "S"
-      ["Success"]
+      ["Successfully cancelled"]
     else
       result
     end
