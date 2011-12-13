@@ -24,6 +24,7 @@ class Actions < AbstractQuery
 		  result
 		end
   end
+  alias :query_hold :hold
 	
 	def book(code)
 	  result = []
@@ -32,6 +33,7 @@ class Actions < AbstractQuery
     end
     result
 	end
+  alias :query_book :book
 
   def cancel(code)
     result = @telnet.query ("X" + (Util::lengthCheck code, 32))
@@ -41,6 +43,7 @@ class Actions < AbstractQuery
       result
     end
   end
+  alias :query_cancel :cancel
 
   def query(code)
     result = []
@@ -49,6 +52,7 @@ class Actions < AbstractQuery
     end
     result
   end
+  alias :query_query_booking :query
   
   # The chain of command can be extended by overriding or monkey patching this
   # method to insert any other class.

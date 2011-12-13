@@ -1,4 +1,6 @@
 module Util
+  
+  QUERY_ID = "query_"
 
   def Util::stringValidate(str, length)
     if str.length > length
@@ -19,9 +21,36 @@ module Util
   def Util::method_parameters object
     result = []
     object.methods.each do |method|
-      result << "#{method.to_s} #{parameters(object, method)}"
+      if method_start_with_query?(method, object)
+        result << format_method(method, object)
+      end
     end
     result
+  end
+  
+  def Util::format_method (method, object)
+    str = remove_query method.to_s.rstrip
+    params = parameters(object, method).rstrip
+    if not params.empty?
+      str += " : #{params}"
+    end
+    str.rstrip
+  end
+  
+  def Util::method_start_with_query? (method, object)
+    (object.class.instance_method method).name.to_s.start_with? QUERY_ID
+  end
+  
+  def Util::remove_query name
+    if name.start_with? QUERY_ID
+      name[QUERY_ID.length..name.length-1]
+    else
+      name
+    end
+  end
+  
+  def Util::add_query name
+    QUERY_ID + name
   end
   
   def Util::parameters(object, method)

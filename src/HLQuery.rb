@@ -41,6 +41,7 @@ class HLQuery < AbstractQuery
     
     result
   end
+  alias :query_multihop :multihop
   
   def bestprice(date, source, destination, type)
     result = []
@@ -49,18 +50,21 @@ class HLQuery < AbstractQuery
     }
     result.min || []
   end
+  alias :query_best_price :bestprice
   
   def holdMulti(connections,klasse,person)
     holds=[]
     connections.each do |c|
       begin
-      holds <<@action.hold(c.date,c.flightcode,klasse,person.gender,person.firstname,person.surname)
+      holds << @action.hold(c.date, c.flightcode, klasse, person.gender, 
+        person.firstname, person.surname)
       rescue
         cancelMulti(holds)
       end
     end
     holds
   end
+  alias :query_hold_multi :holdMulti
   
   def bookMulti(holds)
     bookings = []
@@ -72,6 +76,7 @@ class HLQuery < AbstractQuery
     end
     bookings
   end
+  alias :query_book_multi :bookMulti
   
   def cancelMulti(holds)
     begin
@@ -81,6 +86,7 @@ class HLQuery < AbstractQuery
     rescue    
     end
   end
+  alias :query_cancel_multi :cancelMulti
   
   def shortestWithStops(date, source, destination, stops)
     result = []
@@ -91,6 +97,7 @@ class HLQuery < AbstractQuery
     end
     result.min
   end
+  alias :query_shortest_with_stops :shortestWithStops
   
   def shortestMultiple(date, list)
     dt = date
@@ -104,6 +111,7 @@ class HLQuery < AbstractQuery
     end
     path = Path.new(date, result)
   end
+  alias :query_shortest_multiple :shortestMultiple
   
   def shortestTwo(date, source, destination)
     result = []
@@ -124,6 +132,7 @@ class HLQuery < AbstractQuery
       acc.arrival_time > conn.arrival_time ? conn : acc 
     end
   end
+  alias :query_shortest_two :shortestTwo
   
   def withStops(source, destination, stops)
     result = []
@@ -147,6 +156,7 @@ class HLQuery < AbstractQuery
     end
     result
   end
+  alias :query_with_stops :withStops
   
   def hasConnection(source, destination)
     not @query.listDestinations(source).index(Code.new(destination)).nil?

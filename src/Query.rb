@@ -18,6 +18,7 @@ class Query < AbstractQuery
   def version
     @telnet.query "V"
   end
+  alias :query_version :version
   
   def listAirlines
     result = []
@@ -26,6 +27,7 @@ class Query < AbstractQuery
     }
     result
   end
+  alias :query_list_airlines :listAirlines
   
   def listAirports
     result = []
@@ -34,6 +36,7 @@ class Query < AbstractQuery
     }
     result
   end
+  alias :query_list_airports :listAirports
   
   def listDestinations(airport)
     result = []
@@ -42,6 +45,7 @@ class Query < AbstractQuery
     }
     result
   end
+  alias :query_list_destinations :listDestinations
   
   def listConnections(date, source, destination)
     result = []
@@ -51,24 +55,28 @@ class Query < AbstractQuery
     }
     result
   end
+  alias :query_list_connections :listConnections
     
   def listLocations(flight)
     @telnet.query "F" + flight
   end
+  alias :query_list_locations :listLocations
   
   def listFlightDays(flight)
     @telnet.query "W" + flight 
   end
+  alias :query_list_flightdays :listFlightDays
   
-  def listSeats(inDate, flight, type, incrStr = "0")
+  def listSeats(date, flight, type, incrStr = "0")
     result = []
     incr = incrStr.to_i
     (-incr .. incr).each do |i|
-      date = (parse_date inDate.to_s) + i
-      result.concat get_seats_safely(date.to_s, flight, type)
+      new_date = (parse_date date.to_s) + i
+      result.concat get_seats_safely(new_date.to_s, flight, type)
     end
     result
   end
+  alias :query_list_seats :listSeats
   
   def parse_date date
     begin

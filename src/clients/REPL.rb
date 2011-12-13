@@ -50,6 +50,7 @@ class REPL
   end
   
   def query input
+    input[0] = Util::add_query input[0]
     out = @query.public_send *input
     if empty? out
       empty_result
