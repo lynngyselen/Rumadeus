@@ -20,7 +20,7 @@ class Booking
   end
   
   def to_s
-    "#{@status} #{@date.to_s} #{@time.to_s} #{@duration.to_s} " + 
+    "Booking: #{@status} #{@date.to_s} #{@time.to_s} #{@duration.to_s} " + 
       "#{@flightcode} #{@class} #{@person.to_s} #{@price.to_s}"
   end
   
