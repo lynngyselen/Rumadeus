@@ -52,8 +52,8 @@ class HLQuery < AbstractQuery
   end
   alias :query_best_price :bestprice
   
-  def holdMulti(connections,klasse,person)
-    holds=[]
+  def holdMulti(connections, klasse, person)
+    holds = []
     connections.each do |c|
       begin
       holds << @action.hold(c.date, c.flightcode, klasse, person.gender, 
@@ -66,10 +66,10 @@ class HLQuery < AbstractQuery
   end
   alias :query_hold_multi :holdMulti
   
-  def bookMulti(holds)
+  def bookMulti(*codes)
     bookings = []
     begin
-    holds.each do |b|
+    codes.each do |b|
       bookings << @action.book(b)
     end
     rescue
@@ -78,9 +78,9 @@ class HLQuery < AbstractQuery
   end
   alias :query_book_multi :bookMulti
   
-  def cancelMulti(holds)
+  def cancelMulti(*codes)
     begin
-      holds.each do |b|
+      codes.each do |b|
         @action.cancel(b)
       end
     rescue    
