@@ -35,7 +35,7 @@ class HLQueryTest < Test::Unit::TestCase
     @hops = @hlquery.shortestWithStops(@sW_date, @hm_source, @hm_dest, @hm_hops)
     @holds = @hlquery.holdMulti(@hops.connections, "E", @person)
   end
-=begin  
+
   def test_holdmulti
       @holds.each do |h|
         b = @action.book h
@@ -107,5 +107,5 @@ class HLQueryTest < Test::Unit::TestCase
       assert(shortest <= @hlquery.shortestMultiple(@sW_date, p))
     end
   end
-=end
+
 end
