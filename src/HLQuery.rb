@@ -128,7 +128,7 @@ class HLQuery < AbstractQuery
       end
     }
     
-    tmp.fold(tmp.at 0) do |acc, conn|
+    tmp.fold tmp[0] do |acc, conn|
       acc.arrival_time > conn.arrival_time ? conn : acc 
     end
   end

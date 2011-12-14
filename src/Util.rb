@@ -60,10 +60,10 @@ module Util
   end
   
   def Util::transform_parameter param
-    if (param.at 0) == :req
-      (param.at 1).to_s
-    elsif (param.at 0) == :opt
-      "(#{(param.at 1).to_s})"
+    if param[0] == :req
+      param[1].to_s
+    elsif param[0] == :opt
+      "(#{param[1].to_s})"
     end
   end
   

@@ -18,7 +18,7 @@ class Actions < AbstractQuery
       (Util::stringValidate firstname, 15) +
       (Util::stringValidate surname, 20)
 		result = @telnet.query query
-		if result.length > 0 and (code = result.at 0).start_with? "S"
+		if result.length > 0 and (code = result[0]).start_with? "S"
 		  ["Success: #{code[1..code.length]}"]
 		else
 		  result

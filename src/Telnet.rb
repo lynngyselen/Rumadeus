@@ -16,14 +16,14 @@ class Telnet
   
   def handle_result result
     if error? result
-      raise Util::ServerError.new (result.at 0)
+      raise Util::ServerError.new result[0]
     else
       result | [] # Return an empty array instead of nil
     end
   end
   
   def error? input
-    not input.empty? and (input.at 0).start_with? "ERR"
+    not input.empty? and input[0].start_with? "ERR"
   end
   
   # Newer Ruby does not have a gets method in Telnet anymore, use cmd instead.
