@@ -2,7 +2,7 @@ require 'Util'
 
 class BookingCode
   
-  attr_reader :code
+  attr_reader :status, :code
   
   def initialize(input)
     Util::lengthCheck(input,33)

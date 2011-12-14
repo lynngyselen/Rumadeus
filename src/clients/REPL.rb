@@ -32,6 +32,8 @@ class REPL
         "Your arguments are invalid..."
       rescue Util::ServerError => error
         handle_server_error error
+      rescue Util::ReservationError => error
+        error.inspect
       end
     end
   end
@@ -53,8 +55,7 @@ class REPL
     out = @query.public_send *(input.each_with_index.map do |x, i|
       if i == 0 then Util::add_query x else x end
     end)
-    
-    if empty? out
+    if nil? out
       empty_result
     else
       out
