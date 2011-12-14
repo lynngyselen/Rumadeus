@@ -68,6 +68,7 @@ module Util
   end
   
   class InvalidInputException < StandardError; end
+  class ReservationError < StandardError; end
   
   class ServerError < StandardError
     
