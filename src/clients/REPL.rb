@@ -62,7 +62,7 @@ class REPL
   end
   
   def empty? input
-    input.empty? or input[0].nil?
+    input.nil? or input.empty? or input[0].nil?
   end
   
 end
