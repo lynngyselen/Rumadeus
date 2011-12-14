@@ -38,7 +38,7 @@ class Query < AbstractQuery
   end
   alias :query_list_airports :listAirports
   
-  def listDestinations(airport)
+  def listDestinations airport
     result = []
     (@telnet.query "D" + airport).each { |r|
       result << Code.new(r)
@@ -57,12 +57,12 @@ class Query < AbstractQuery
   end
   alias :query_list_connections :listConnections
     
-  def listLocations(flight)
+  def listLocations flight
     @telnet.query "F" + flight
   end
   alias :query_list_locations :listLocations
   
-  def listFlightDays(flight)
+  def listFlightDays flight
     @telnet.query "W" + flight 
   end
   alias :query_list_flightdays :listFlightDays
