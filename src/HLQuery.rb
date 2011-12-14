@@ -128,11 +128,29 @@ class HLQuery < AbstractQuery
       end
     }
     
-    tmp.fold tmp[0] do |acc, conn|
-      acc.arrival_time > conn.arrival_time ? conn : acc 
-    end
+    find_best_connection tmp
   end
   alias :query_shortest_two :shortestTwo
+  
+  def find_best_connection conns
+    conns.fold nil do |acc, conn|
+      better_connection?(conn, acc) ? conn : acc 
+    end
+  end
+  
+  def better_connection? (c1, c2)
+    if c2.nil?
+      has_seats c1
+    elsif has_seats c1
+      c1.arrival_time < c2.arrival_time
+    else
+      false
+    end
+  end
+  
+  def has_seats conn
+    true
+  end
   
   def withStops(source, destination, stops)
     result = []
