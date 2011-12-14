@@ -4,29 +4,33 @@ require 'utilities/BookingCode'
 require 'Query'
 
 class MultipleBookings
+  
+  def initialize
+    @actions = Actions.new
+  end
+  
   def groupBooking(nbofseats, date, flightnumber, klasse, persons)
     holds = []
     if enough_seats?(nbofseats, date, flightnumber, klasse)
       begin
         holds = holdall(date, flightnumber, klasse, persons)
       rescue => e
-      e.inspect
+        e.inspect
       end
-    bookall holds
+      bookall holds
     end
   end
 
   def holdall(date, flightnumber, klasse, persons)
     holds = []
-    action = Actions.new
     persons.each { |p|
       begin
-        p persons.size
-        holds << action.hold(date, flightnumber, klasse, p.gender, p.firstname, p.surname)
+        holds << @actions.hold(date, flightnumber, klasse, p.gender,
+          p.firstname, p.surname)
       rescue
-      p "Cancelall holds"
-      cancelall holds
-      raise  Util::ReservationError, "No reservations were made"
+        p "Cancelall holds"
+        cancelall holds
+        raise  Util::ReservationError, "No reservations were made"
       end
     }
     holds
@@ -34,24 +38,22 @@ class MultipleBookings
 
   def bookall(holds)
     books = []
-    action = Actions.new
     holds.each {|h|
       begin
-        books << action.book(h.code)
+        books << @actions.book(h.code)
       rescue
-      p "Not all reservations are booked"
+        p "Not all reservations are booked"
       end
     }
     books
   end
 
   def cancelall(holds)
-    action = Actions.new
     holds.each {|h|
       begin
-        action.cancel(h.code)
+        @actions.cancel(h.code)
       rescue
-      p "Not all holdings were cancelled"
+        p "Not all holdings were cancelled"
       end
     }
   end
@@ -59,7 +61,7 @@ class MultipleBookings
   def enough_seats?(numberofseats, date, flightnumber, klasse)
     query = Query.new
     seatPrices = query.get_seats_safely(date, flightnumber, klasse)
-    seatPrices.empty? ? [] : availableSeats = seatPrices[0].seats
+    availableSeats = seatPrices.empty? ? 0 : seatPrices[0].seats
     availableSeats >= numberofseats ? true : false
   end
 
