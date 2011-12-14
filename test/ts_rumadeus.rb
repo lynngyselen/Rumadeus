@@ -3,7 +3,6 @@ require "../test/tc_util"
 require "../test/tc_hlquery"
 require "../test/tc_actions"
 
-
 require "../test/utilities/tc_airline"
 require "../test/utilities/tc_airport"
 require "../test/utilities/tc_booking"
