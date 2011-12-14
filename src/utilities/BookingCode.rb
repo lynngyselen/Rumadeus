@@ -11,6 +11,6 @@ class BookingCode
   end
   
   def to_s
-     "#{@status.to_s}#{@code.to_s}"
+     "Booking, code: #{@code.to_s}"
   end
 end
