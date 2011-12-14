@@ -18,29 +18,6 @@ module Util
     str
   end
   
-  def Util::method_parameters object
-    result = []
-    object.methods.each do |method|
-      if method_start_with_query?(method, object)
-        result << format_method(method, object)
-      end
-    end
-    result
-  end
-  
-  def Util::format_method (method, object)
-    str = remove_query method.to_s.rstrip
-    params = parameters(object, method).rstrip
-    if not params.empty?
-      str += " : #{params}"
-    end
-    str.rstrip
-  end
-  
-  def Util::method_start_with_query? (method, object)
-    (object.class.instance_method method).name.to_s.start_with? QUERY_ID
-  end
-  
   def Util::remove_query name
     if name.start_with? QUERY_ID
       name[QUERY_ID.length..name.length-1]
@@ -51,20 +28,6 @@ module Util
   
   def Util::add_query name
     QUERY_ID + name
-  end
-  
-  def Util::parameters(object, method)
-    object.class.instance_method(method).parameters.map { |param|
-      transform_parameter param
-    }.join(" ")
-  end
-  
-  def Util::transform_parameter param
-    if param[0] == :req
-      param[1].to_s
-    elsif param[0] == :opt
-      "(#{param[1].to_s})"
-    end
   end
   
   class InvalidInputException < StandardError; end
