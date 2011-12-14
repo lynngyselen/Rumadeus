@@ -50,8 +50,10 @@ class REPL
   end
   
   def query input
-    input[0] = Util::add_query input[0]
-    out = @query.public_send *input
+    out = @query.public_send *(input.each_with_index.map do |x, i|
+      if i == 0 then Util::add_query x else x end
+    end)
+    
     if empty? out
       empty_result
     else
