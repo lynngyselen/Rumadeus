@@ -30,6 +30,7 @@ class Actions < AbstractQuery
  
 	
 	def book(code)
+
     output = @telnet.query ("B" + (Util::lengthCheck code, 32))
     if output[0].start_with? "S"
       book = [Booking.new(output[0])]

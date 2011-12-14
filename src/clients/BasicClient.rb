@@ -2,6 +2,7 @@ require 'Actions'
 require 'Util'
 require 'Query'
 require 'HLQuery'
+require 'MultipleBookings'
 
 #puts Actions.new.query "3f4cdf33a688ae1e126e16e42e2a2f04"
 
@@ -19,7 +20,7 @@ require 'HLQuery'
 
 #puts (HLQuery.new.bestprice "2012-01-30","CDG", "VIE","E")
 
-
+=begin
 Query.new.combine do
   listConnections "2012-01-31","BRU","CDG"
   listDestinations "VIE"
@@ -27,3 +28,11 @@ Query.new.combine do
   listAirlines
   listAirports
 end
+=end 
+
+persons = []
+persons << Person.new("FRUBY           RUBYRUB             ")
+persons << Person.new("MLEROY          JENKINS             ")
+persons << Person.new("FMARIE          CURRIE              ")
+
+MultipleBookings.new.groupBooking(3, "2012-01-06", "SJT211", "E", persons) 
