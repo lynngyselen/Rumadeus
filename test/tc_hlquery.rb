@@ -32,52 +32,48 @@ class HLQueryTest < Test::Unit::TestCase
     @hm_dest = "CDG"
     @hm_hops = 3
     
-    @hops = @hlquery.shortestWithStops(@sW_date, @hm_source,@hm_dest, @hm_hops)
-    @holds = @hlquery.holdMulti(@hops.connections,"E",@person)
+    @hops = @hlquery.shortestWithStops(@sW_date, @hm_source, @hm_dest, @hm_hops)
+    @holds = @hlquery.holdMulti(@hops.connections, "E", @person)
   end
   
   def test_holdmulti
-
       @holds.each do |h|
-        b = @action.book(h)
-        q = @action.query(b)
-        assert_equal(b.flightcode,q.flightcode)
-        assert_equal(b.person,q.person)
+        b = @action.book h
+        q = @action.query b
+        assert_equal(b.flightcode, q.flightcode)
+        assert_equal(b.person, q.person)
       end
-      if(@holds.size >0)
-        assert_equal(@holds.size,@hops.connections.size)
+      if @holds.size > 0
+        assert_equal(@holds.size, @hops.connections.size)
       end
-      @hlquery.cancelMulti(@holds)
+      @hlquery.cancelMulti @holds
   end
   
   def test_cancelmulti
-    @hlquery.cancelMulti(@holds)
+    @hlquery.cancelMulti @holds
     @holds.each do |h|
-      begin
-      b = @action.query(h)
+      b = @action.query h
       assert_equal(false,true)
-      rescue
-      end
     end
   end
   
   def test_bookmulti
-    @holds = @hlquery.holdMulti(@hops.connections,"E",@person)
-    bookings = @hlquery.bookMulti(@holds)
+    @holds = @hlquery.holdMulti(@hops.connections, "E", @person)
+    bookings = @hlquery.bookMulti @holds
     bookings.each do |b|
-      q = @action.query(b)
-      assert_equal("E",q.class)
-      assert_equal(@person,q.person)
+      q = @action.query b
+      assert_equal("E", q.class)
+      assert_equal(@person, q.person)
     end
-    @hlquery.cancelMulti(@holds)
+    @hlquery.cancelMulti @holds
   end
   
   def test_withStops
-    for i in 0..@ws_times-1 do      
-      result = @hlquery.withStops(@ws_source[i],@ws_destination[i],@ws_hops[i])
+    for i in 0 .. @ws_times - 1 do
+      result = @hlquery.withStops(@ws_source[i], @ws_destination[i], @ws_hops[i])
       result.each do |res|
-        for i in 0 .. (res.size-2)
-          assert(@hlquery.hasConnection(res[i], res[i+1]))
+        for i in 0 .. (res.size - 2)
+          assert @hlquery.hasConnection(res[i], res[i+1])
         end
       end
     end
