@@ -30,6 +30,8 @@ class REPL
         "You did not supply the correct amount of arguments."
       rescue Util::InvalidInputException
         "Your arguments are invalid..."
+      rescue Util::ReservationError => e
+        "Error: #{e.message}"
       rescue Util::ServerError => error
         handle_server_error error
       rescue Util::ReservationError => error
@@ -63,7 +65,7 @@ class REPL
   end
   
   def empty? input
-    input.empty? or input[0].nil?
+    input.nil? or input.empty? or input[0].nil?
   end
   
 end
