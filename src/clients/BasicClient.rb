@@ -1,8 +1,8 @@
-require 'Actions'
+require 'Action'
 require 'Util'
 require 'Query'
 require 'HLQuery'
-require 'MultipleBookings'
+require 'HLAction'
 
 #puts Actions.new.query "3f4cdf33a688ae1e126e16e42e2a2f04"
 

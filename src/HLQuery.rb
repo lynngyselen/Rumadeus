@@ -5,7 +5,7 @@
 
 require 'AbstractQuery'
 require 'Query'
-require 'Actions'
+require 'Action'
 require 'utilities/Path'
 
 # Add fold methods to Array
@@ -51,42 +51,7 @@ class HLQuery < AbstractQuery
     result.min || []
   end
   alias :query_best_price :bestprice
-  
-  def holdMulti(connections, klasse, person)
-    holds = []
-    connections.each do |c|
-      begin
-      holds << @action.hold(c.date, c.flightcode, klasse, person.gender, 
-        person.firstname, person.surname)
-      rescue
-        cancelMulti(holds)
-      end
-    end
-    holds
-  end
-  alias :query_hold_multi :holdMulti
-  
-  def bookMulti(*codes)
-    bookings = []
-    begin
-    codes.each do |b|
-      bookings << @action.book(b)
-    end
-    rescue
-    end
-    bookings
-  end
-  alias :query_book_multi :bookMulti
-  
-  def cancelMulti(*codes)
-    begin
-      codes.each do |b|
-        @action.cancel(b)
-      end
-    rescue    
-    end
-  end
-  alias :query_cancel_multi :cancelMulti
+
   
   def shortestWithStops(date, source, destination, stops)
     result = []
@@ -180,8 +145,15 @@ class HLQuery < AbstractQuery
     not @query.listDestinations(source).index(Code.new(destination)).nil?
   end
   
+  def enough_seats?(number_of_seats, date, flightnumber, klasse)
+    seatPrices = @query.get_seats_safely(date, flightnumber, klasse)
+    availableSeats = seatPrices.empty? ? 0 : seatPrices[0].seats
+    availableSeats >= number_of_seats ? true : false
+  end
+  alias :query_enough_seats? :enough_seats?
+  
   def delegate
-    Actions.new
+    Action.new
   end
   
 end
