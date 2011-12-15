@@ -1,5 +1,5 @@
 require 'AbstractQuery'
-require 'LastResort'
+require 'MultipleBookings'
 require 'Util'
 require 'utilities/Booking'
 require 'utilities/BookingCode'
@@ -73,7 +73,7 @@ class Actions < AbstractQuery
   # The extendor is responsible for proper handling of
   # non-existing classes then.
   def delegate
-    LastResort.new
+    MultipleBookings.new
   end
 
 end

@@ -2,12 +2,16 @@ require 'Util'
 require 'Actions'
 require 'utilities/BookingCode'
 require 'Query'
+require 'AbstractQuery'
+require 'LastResort'
 
-class MultipleBookings
+class MultipleBookings < AbstractQuery
   
   def initialize
     @actions = Actions.new
   end
+  
+  
   
   def groupBooking(nbofseats, date, flightnumber, klasse, persons)
     holds = []
@@ -20,6 +24,7 @@ class MultipleBookings
       bookall holds
     end
   end
+  
 
   def holdall(date, flightnumber, klasse, persons)
     holds = []
@@ -64,5 +69,10 @@ class MultipleBookings
     availableSeats = seatPrices.empty? ? 0 : seatPrices[0].seats
     availableSeats >= numberofseats ? true : false
   end
+
+  def delegate
+    LastResort.new
+  end
+
 
 end
