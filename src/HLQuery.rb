@@ -26,7 +26,7 @@ class HLQuery < AbstractQuery
   
   def initialize
     @query = Query.new
-    @action = Actions.new
+    @action = Action.new
   end
   
   # return list of possibilities for each hop
@@ -53,11 +53,12 @@ class HLQuery < AbstractQuery
   alias :query_best_price :bestprice
 
   
-  def shortestWithStops(date, source, destination, stops)
+  def shortestWithStops(datetime, source, destination, stops)
+    datetime = DateTime.parse datetime.to_s
     result = []
     paths = withStops(source, destination, stops)
     paths.each do |p|
-      t = shortestMultiple(date, p)
+      t = shortestMultiple(datetime, p)
       result << t
     end
     result.min
@@ -65,7 +66,7 @@ class HLQuery < AbstractQuery
   alias :query_shortest_with_stops :shortestWithStops
   
   def shortestMultiple(date, list)
-    dt = date
+    dt = DateTime.parse date.to_s
     result = []
     for i in 0 .. (list.size-2)
       tmp =  shortestTwo(dt, list[i], list[i+1])
@@ -80,9 +81,10 @@ class HLQuery < AbstractQuery
   
   def shortestTwo(date, source, destination)
     result = []
-    oridate = DateTime.parse date.to_s 
+    oridate = DateTime.parse date.to_s
+    date =Date.parse date.to_s 
     for i in 0 .. 6
-      result |= @query.listConnections(date.to_date.to_s, source, destination)
+      result |= @query.listConnections(date.to_s, source, destination)
       date += 1
     end
     tmp = []
@@ -119,6 +121,7 @@ class HLQuery < AbstractQuery
   
   def withStops(source, destination, stops)
     result = []
+    stops = Integer(stops)
     if(source == destination)
       result =[source]
     elsif(stops == 0)
@@ -157,3 +160,5 @@ class HLQuery < AbstractQuery
   end
   
 end
+
+

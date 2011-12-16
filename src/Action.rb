@@ -4,7 +4,7 @@ require 'Util'
 require 'utilities/Booking'
 require 'utilities/BookingCode'
 
-class Actions < AbstractQuery
+class Action < AbstractQuery
     
   def initialize
     super

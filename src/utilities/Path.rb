@@ -4,7 +4,7 @@ class Path
   attr_reader :date, :connections, :duration
   
   def initialize(date, connections)
-    @date = date
+    @date = DateTime.parse date.to_s
     @connections = connections
     @duration = connections[connections.size - 1].arrival_time.to_time - date.to_time
   end
