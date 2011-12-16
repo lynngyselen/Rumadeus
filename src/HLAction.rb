@@ -13,6 +13,7 @@ class HLAction < AbstractQuery
     @actions = Action.new
   end
   
+
   def hold_multi(numberOfPersons,numberOfFlights,klasse,*personsThenFlights)
     length =0
     persons = []
@@ -27,6 +28,7 @@ class HLAction < AbstractQuery
     end
     
     holds(persons,klasse,flights)
+
     
   end
   

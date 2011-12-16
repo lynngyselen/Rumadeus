@@ -23,7 +23,7 @@ class Connection
   end
   
   def to_s
-    "#{@date.to_s} #{@from.to_s} #{@to.to_s} #{@flightcode}" +
+    "#{@date.to_s} #{@from.to_s} #{@to.to_s} #{@flightcode} " +
       "#{@deptime.to_s} #{@duration.to_s}"
   end
   

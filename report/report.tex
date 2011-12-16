@@ -1,0 +1,98 @@
+\documentclass[11pt,pdftex,oneside]{article}
+
+\usepackage[english]{babel}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage[final]{graphicx}
+\usepackage[small,bf,hang]{caption}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{ae,aecompl}
+\usepackage{fancyhdr}
+\usepackage{pxfonts}
+\usepackage{url}
+
+\addtolength{\textwidth}{2cm}
+\addtolength{\hoffset}{-1cm}
+\addtolength{\voffset}{0.5cm}
+\addtolength{\textheight}{35pt}
+\addtolength{\textheight}{1cm}
+\addtolength{\topmargin}{-2cm}
+
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\lhead{\nouppercase{\rightmark}}
+\rhead{\nouppercase{\leftmark}}
+\renewcommand*{\subsectionmark}[1]{\markboth{\thesubsection\ \ #1}{}}
+\fancyhead[LO]{\nouppercase\leftmark}
+\fancyhead[RO]{{\bfseries\thepage}}
+\addtolength{\headheight}{\baselineskip}
+
+\displaywidowpenalty=4000
+\widowpenalty=4000
+\clubpenalty=4000
+
+\title{Comparative Programming Languages\\ {\Large Assignment two}}
+\author{Ramses De Norre \and Robin Debruyne
+        \and Lynn Gyselen \and Mathias Spiessens}
+\date{December 16, 2011}
+
+\begin{document}
+\maketitle
+\thispagestyle{empty}
+
+\section{Features}
+Our DSL, which we refered to as Rumadeus, is built as a thin wrapper
+around the Adameus query system.
+We have tried to provide a more readable syntax than the obscure Adameus
+queries and added some higher level features such as multihop bookings and
+reservations, finding the best priced ticket, \ldots
+
+Our DSL's main client is a REPL on which commands and their parameters can
+be given.
+To start the REPL, one executes in the {\tt src/} directory the following
+command\footnote{We used ruby version 1.9.3 during development, we cannot
+guarantee compatibility with older versions because of the general
+instability of libraries between major versions and our limited time
+frame.}
+\begin{quote}
+  {\tt ruby -I . ./clients/REPL.rb}
+\end{quote}
+after which you will be greeted by a prompt
+\begin{quote}
+  {\tt Rumadeus >}
+\end{quote}
+
+A list of available commands and their parameters can be obtained by the
+{\tt help} or {\tt h} command.
+
+An example session which also shows some error handling:
+\begin{samepage}
+  \begin{quote}
+    \begin{verbatim}
+Welcome to Rumadeus!
+type help for a list of commands.
+
+Rumadeus > list_connections 2011-11-05 BRU AFR
+(Empty result.)
+
+Rumadeus > list_connections 2012-01-31 TEG AMS
+2012-01-31 TEG AMS GWI101 19:30 01:15
+2012-01-31 TEG AMS KLM137 18:55 01:05
+2012-01-31 TEG AMS DLH169 19:55 01:05
+
+Rumadeus > list_seats GWI101
+You did not supply the correct amount of arguments.
+Wrong number of arguments (1 for 3).
+
+Rumadeus > list_seats 2012-01-31 GWI101 B
+8 175
+
+Rumadeus >
+    \end{verbatim}
+  \end{quote}
+\end{samepage}
+
+\section{Implementation}
+
+\end{document}

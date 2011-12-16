@@ -1,2 +1,7 @@
 .project
+*.aux
+*.log
+*.toc
+*.pdf
+*.backup
 
