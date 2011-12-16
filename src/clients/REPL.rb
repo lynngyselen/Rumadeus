@@ -9,7 +9,12 @@ class REPL
     @query = Query.new
   end
   
+  def welcome
+    puts "Welcome to Rumadeus!\ntype help for a list of commands.\n\n"
+  end
+  
   def run
+    welcome
     while true
       puts parseInput input
       puts "\n"
@@ -27,12 +32,13 @@ class REPL
     if not empty? input
       begin
         query input
-      rescue ArgumentError
-        "You did not supply the correct amount of arguments."
+      rescue ArgumentError => error
+        "You did not supply the correct amount of arguments." + 
+        "\n#{error.message.capitalize}."
       rescue Util::InvalidInputException
         "Your arguments are invalid..."
       rescue Util::ReservationError => e
-        "Error: #{e.message}"
+        "Error: #{error.message}"
       rescue Util::ServerError => error
         handle_server_error error
       end
