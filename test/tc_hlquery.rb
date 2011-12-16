@@ -25,7 +25,7 @@ class HLQueryTest < Test::Unit::TestCase
     @sW_date = DateTime.parse("31/01/2012-01:15") 
     @sW_source = "BRU"
     @sW_destination = "JFK"
-    @sW_hops = 3
+    @sW_hops = 6
     
     @hm_person = Person.new("MRobin          Debruyne")
     @hm_source = "JFK"

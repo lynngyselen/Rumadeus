@@ -161,4 +161,3 @@ class HLQuery < AbstractQuery
   
 end
 
-
