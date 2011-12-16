@@ -12,7 +12,9 @@ class HLAction < AbstractQuery
     @actions = Action.new
   end
   
-  
+  def hold_multi(NumberOfPersons,NumberOfFlights,klasse,PersonsThenFlights)
+    
+  end
   
   def holds(persons,klasse,path)
     holds = []
@@ -32,6 +34,14 @@ class HLAction < AbstractQuery
     holds
    end  
 
+  def book_multi(*booking_code)
+    codes = []
+    booking_code.each do |bc|
+      codes << BookingCode.new(bc)
+    end
+    books(codes)
+  end
+  alias :query_book_multi :book_multi
 
   def books(holds)
     books = []
@@ -48,7 +58,15 @@ class HLAction < AbstractQuery
     end
     books
   end
-   alias :query_books :books
+
+  def query_multi(*booking_code)
+    codes = []
+    booking_code.each do |bc|
+      codes << BookingCode.new(bc)
+    end
+    queries(codes)
+  end
+  alias :query_query_multi :query_multi
 
   def queries(books)
     result =[]
@@ -60,7 +78,15 @@ class HLAction < AbstractQuery
     end
     result
   end
-  alias :query_queries :queries
+
+  def cancel_multi(*booking_code)
+    codes = []
+    booking_code.each do |bc|
+      codes << BookingCode.new(bc)
+    end
+    cancelall(codes)
+  end
+  alias :query_cancel_multi :cancel_multi
 
   def cancelall(booking_code)
     booking_code.each do|h|
@@ -70,7 +96,6 @@ class HLAction < AbstractQuery
       end
     end
   end
-  alias :query_cancelall :cancelall
 
   def delegate
     LastResort.new
