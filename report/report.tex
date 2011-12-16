@@ -62,11 +62,16 @@ after which you will be greeted by a prompt
 \begin{quote}
   {\tt Rumadeus >}
 \end{quote}
-
 A list of available commands and their parameters can be obtained by the
 {\tt help} or {\tt h} command.
 
-An example session which also shows some error handling:
+Below we show and example Rumadeus session which also shows some error
+handling and corner cases like an empty result set.
+The parameters can all be entered in a natural format and no parentheses
+or separators are needed.
+Furthermore, data such as dates can be entered in a multitude of formats,
+basically any format which ruby's {\tt Date::parse} method
+understands.
 \begin{samepage}
   \begin{quote}
     \begin{verbatim}
@@ -88,11 +93,62 @@ Wrong number of arguments (1 for 3).
 Rumadeus > list_seats 2012-01-31 GWI101 B
 8 175
 
+Rumadeus > list_seats 2012/01/31 GWI101 B
+8 175
+
+Rumadeus > list_seats 2012.01.31 GWI101 B
+8 175
+
 Rumadeus >
     \end{verbatim}
   \end{quote}
 \end{samepage}
 
+A test suite can be found in the {\tt test/} directory and can be run by
+executing the following command in the {\tt src/} directory (yes, {\tt
+src/}! Not {\tt test/}):
+\begin{quote}
+  {\tt ruby -I . ../test/ts\_rumadeus.rb}
+\end{quote}
+note that the Adameus server should be up and running for some of the
+tests to succeed.
+
 \section{Implementation}
+
+The main issue in developing Rumadeus was figuring out how to do method
+dispatch such that users are presented a number of functions that can be
+located in multiple source files.
+We also wanted to be able to write helper functions in those files without
+the need to expose those to the user as well.
+
+To reach this goal, we used ruby's excellent support for dynamic
+programming and the possibility to hook right into the method dispatch
+mechanisms by using methods as {\tt public\_send} and
+{\tt method\_missing}.
+
+\subsection{Calling methods from a string}
+To call a method by means of a user provided string, we used the
+{\tt public\_send} method which allows one to dynamically call a method on
+any object with given parameters.
+The user-accessible methods are furthermore all prefixed by a common
+string, which is used to ensure that only those functions are accessible
+and shown in the help.
+
+\subsection{Dispatch amongst multiple classes}
+To have method dispatch amongst multiple classes we used the chain of
+command pattern, which was very easy to implement using ruby's
+{\tt method\_missing}.
+In concreto, every query-providing class specifies a delegate to which
+method dispatch should go if a given query cannot be found in the current
+class.
+By doing so, a request gets forwarded through our chain until it is either
+handled somewhere or until it reaches the final class (called
+{\tt LastResort}) which responds with \emph{unknown command}.
+
+The chain of command makes it easy to extend the DSL by just hooking a
+class with new queries into the existing chain, furthermore an end-user
+can also easily add in new functionality by e.g.\ monkey patching the
+{\tt LastResort} class.
+
 
 \end{document}
