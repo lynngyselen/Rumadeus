@@ -5,7 +5,7 @@
 
 require 'AbstractQuery'
 require 'Query'
-require 'Action'
+require 'Actions'
 require 'utilities/Path'
 
 # Add fold methods to Array
@@ -26,7 +26,7 @@ class HLQuery < AbstractQuery
   
   def initialize
     @query = Query.new
-    @action = Action.new
+    @action = Actions.new
   end
   
   # return list of possibilities for each hop
@@ -57,12 +57,12 @@ class HLQuery < AbstractQuery
     datetime = DateTime.parse datetime.to_s
     result = []
     paths = withStops(source, destination, stops)
-    p paths
     paths.each do |p|
       t = shortestMultiple(datetime, p)
-      result << t
+      if not t.nil?
+        result << t
+      end
     end
-    p result
     result.min
   end
   alias :query_shortest_with_stops :shortestWithStops
@@ -75,6 +75,8 @@ class HLQuery < AbstractQuery
       if not tmp.nil?
         dt = tmp.arrival_time
         result << tmp
+      else
+        return nil
       end
     end
     path = Path.new(date, result)
@@ -158,7 +160,7 @@ class HLQuery < AbstractQuery
   alias :query_enough_seats? :enough_seats?
   
   def delegate
-    Action.new
+    Actions.new
   end
   
 end

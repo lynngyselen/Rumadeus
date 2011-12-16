@@ -1,86 +1,76 @@
 require 'Util'
-require 'Action'
+require 'Actions'
 require 'utilities/BookingCode'
 require 'Query'
 require 'AbstractQuery'
 require 'LastResort'
 require 'HLQuery'
 
-class MultipleBookings < AbstractQuery
+class HLAction < AbstractQuery
   
   def initialize
     @actions = Actions.new
   end
   
-  def hold_multi_connections(connections, klasse, person)
+  def holds(persons,klasse,path)
     holds = []
-    connections.each do |c|
-      begin
-      holds << @action.hold(c.date, c.flightcode, klasse, person.gender, 
-        person.firstname, person.surname)
-      rescue
-        cancel_multi holds
+    p path
+    p path.connections
+    begin
+      persons.each do |p|
+        path.connections.each do |c|
+          holds << @actions.hold(c.date.to_s,c.flightcode.to_s,klasse,p.gender,p.firstname,p.surname)        
+        end
       end
+    rescue => e
+      p e
+      begin
+        cancelall(holds)
+      rescue
+      end
+      p "No holds were made"
     end
+    p holds
     holds
-  end
-  alias :query_hold_multi_connections :hold_multi_connections
-  
-  def hold_multi_persons(date, flightnumber, klasse, persons)
-    holds = []
-    persons.each { |p|
-      begin
-        holds << @actions.hold(date, flightnumber, klasse, p.gender,
-          p.firstname, p.surname)
-      rescue
-        p "Cancelall holds"
-        cancel_multi holds
-        raise  Util::ReservationError, "No reservations were made"
-      end
-    }
-    holds
-  end
-  alias :query_hold_multi_persons :hold_multi_persons
+   end  
+  alias :query_holds :holds
 
-  def book_multi(*booking_code)
+  def books(holds)
     books = []
-    booking_code.each {|h|
+    holds.each do |h|
       begin
         books << @actions.book(h.code)
-      rescue
-        p "Not all reservations are booked"
+      rescue => e
+        p e
       end
-    }
+    end
     books
   end
-   alias :query_book_multi :book_multi
+   alias :query_books :books
 
-  def cancel_multi(*booking_code)
-    booking_code.each {|h|
+  def queries(books)
+    result =[]
+    books.each do|b|
       begin
-        @actions.cancel(h.code)
-      rescue
-        p "Not all holdings were cancelled"
-      end
-    }
-  end
-  alias :query_cancel_multi :cancel_multi
-
-
-  def group_booking(number_of_seats, date, flightnumber, klasse, persons)
-    holds = []
-    hlquery = HLQuery.new
-    if hlquery.enough_seats?(number_of_seats, date, flightnumber, klasse)
-      begin
-        holds = hold_multi(date, flightnumber, klasse, persons)
+        result <<@actions.query(b.code)
       rescue => e
-        e.inspect
+        p e
       end
-      book_multi holds
     end
   end
-  alias :query_group_booking :group_booking
+  alias :query_queries :queries
 
+  def cancelall(booking_code)
+    p booking_code
+    booking_code.each do|h|
+      begin
+        @actions.cancel(h.code)
+      rescue => e
+        p e
+      end
+    end
+  end
+  alias :query_cancelall :cancelall
 
   def delegate
     LastResort.new

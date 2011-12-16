@@ -8,7 +8,7 @@ class HLQueryTest < Test::Unit::TestCase
   def setup
     @query = Query.new
     @hlquery = HLQuery.new
-    @action = Action.new
+    @action = Actions.new
     
     @ws_times = 2
     @ws_source = ["CDG","BRU"]
@@ -25,7 +25,7 @@ class HLQueryTest < Test::Unit::TestCase
     @sW_date = DateTime.parse("31/01/2012-01:15") 
     @sW_source = "BRU"
     @sW_destination = "JFK"
-    @sW_hops = 2
+    @sW_hops = 3
     
     @hm_person = Person.new("MRobin          Debruyne")
     @hm_source = "JFK"
@@ -35,39 +35,7 @@ class HLQueryTest < Test::Unit::TestCase
   #  @hops = @hlquery.shortestWithStops(@sW_date, @hm_source, @hm_dest, @hm_hops)
   #  @holds = @hlquery.holdMulti(@hops.connections, "E", @person)
   end
-=begin
-  def test_holdmulti
-      @holds.each do |h|
-        b = @action.book h
-        q = @action.query b
-        assert_equal(b.flightcode, q.flightcode)
-        assert_equal(b.person, q.person)
-      end
-      if @holds.size > 0
-        assert_equal(@holds.size, @hops.connections.size)
-      end
-      @hlquery.cancelMulti @holds
-  end
-  
-  def test_cancelmulti
-    @hlquery.cancelMulti @holds
-    @holds.each do |h|
-      b = @action.query h
-      assert_equal(false,true)
-    end
-  end
-  
-  def test_bookmulti
-    @holds = @hlquery.holdMulti(@hops.connections, "E", @person)
-    bookings = @hlquery.bookMulti @holds
-    bookings.each do |b|
-      q = @action.query b
-      assert_equal("E", q.class)
-      assert_equal(@person, q.person)
-    end
-    @hlquery.cancelMulti @holds
-  end
-  
+
   def test_withStops
     for i in 0 .. @ws_times - 1 do
       result = @hlquery.withStops(@ws_source[i], @ws_destination[i], @ws_hops[i])
@@ -99,14 +67,17 @@ class HLQueryTest < Test::Unit::TestCase
         @hlquery.shortestTwo(@sM_date, @sM_list[i], @sM_list[i+1]))
     end
   end
-=end  
+ 
   def test_shortestWithStops  
     shortest = @hlquery.shortestWithStops(@sW_date, @sW_source,
       @sW_destination, @sW_hops) 
-    p shortest  
-  #  (@hlquery.withStops(@sW_source, @sW_destination, @sW_hops)).each do |p|
-  #    assert(shortest <= @hlquery.shortestMultiple(@sW_date, p))
-  #  end
+      p shortest
+    (@hlquery.withStops(@sW_source, @sW_destination, @sW_hops)).each do |p|
+      x =@hlquery.shortestMultiple(@sW_date, p)
+      if not x.nil?
+        assert(shortest <= x)
+      end
+    end
   end
 
 end
