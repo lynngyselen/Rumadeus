@@ -28,13 +28,17 @@ class HLActionstest < Test::Unit::TestCase
 
   def test_all
     @holds = @hlaction.hold_multi(2,2,@klasse,"M","Mathias","Spiessens","M","Robin","Debruyne",@path.connections[0].date.to_s,@path.connections[0].flightcode,@path.connections[1].date.to_s,@path.connections[1].flightcode)
-    @books = @hlaction.books(@holds)
-    @queri = @hlaction.queries(@holds)
+    @hcs = []
+    @holds.each do |h|
+      @hcs << h.code
+    end
+    @books = @hlaction.books(@hcs)
+    @queri = @hlaction.queries(@hcs)
     
     assert_equal(@queri.size,4)
     
-    @hlaction.cancelall(@holds)
-    @queri = @hlaction.queries(@holds)
+    @hlaction.cancelall(@hcs)
+    @queri = @hlaction.queries(@hcs)
     assert_equal(0,@queri.size)
     
   end
