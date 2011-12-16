@@ -59,14 +59,17 @@ class REPL
   end
   
   def query input
-    out = @query.public_send *(input.each_with_index.map do |x, i|
-      if i == 0 then Util::add_query x else x end
-    end)
+    out = @query.public_send *(format input)
     if empty? out
       empty_result
     else
       out
     end
+  end
+  
+  # Prepend Util::QUER_ID to the first element of input
+  def format input
+    [(Util::add_query input[0]), *(input.drop 1)]
   end
   
   def empty? input

@@ -40,7 +40,7 @@ class BookingTest < Test::Unit::TestCase
   end
   
   def test_to_s
-    str = "Booking: #{@status} #{@parsedDate.to_s} #{@parsedTime.to_s} " +
+    str = "Booking: #{@parsedDate.to_s} #{@parsedTime.to_s} " +
       "#{@parsedDuration.to_s} #{@flightcode} #{@class} #{@person.to_s} " +
       "#{@price.to_s}"
     assert_equal(str, @booking.to_s)
