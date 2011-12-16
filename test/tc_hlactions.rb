@@ -27,7 +27,7 @@ class HLActionstest < Test::Unit::TestCase
   end
 
   def test_all
-    @holds = @hlaction.holds(@persons,@klasse,@path)
+    @holds = @hlaction.hold_multi(2,2,@klasse,"M","Mathias","Spiessens","M","Robin","Debruyne",@path.connections[0].date.to_s,@path.connections[0].flightcode,@path.connections[1].date.to_s,@path.connections[1].flightcode)
     @books = @hlaction.books(@holds)
     @queri = @hlaction.queries(@holds)
     
@@ -36,6 +36,11 @@ class HLActionstest < Test::Unit::TestCase
     @hlaction.cancelall(@holds)
     @queri = @hlaction.queries(@holds)
     assert_equal(0,@queri.size)
+    
+  end
+
+
+  def test_multi
     
   end
 

@@ -5,6 +5,7 @@ require 'Query'
 require 'AbstractQuery'
 require 'LastResort'
 require 'HLQuery'
+require 'Util'
 
 class HLAction < AbstractQuery
   
@@ -12,7 +13,20 @@ class HLAction < AbstractQuery
     @actions = Action.new
   end
   
-  def hold_multi(NumberOfPersons,NumberOfFlights,klasse,PersonsThenFlights)
+  def hold_multi(numberOfPersons,numberOfFlights,klasse,*personsThenFlights)
+    length =0
+    persons = []
+    for i in 0 .. numberOfPersons-1 do
+        persons << Person.new(personsThenFlights[3*i]+(Util::stringValidate personsThenFlights[3*i+1], 15)+(Util::stringValidate personsThenFlights[3*i+2], 20))
+    end
+    
+    flights = []
+    
+    for i in 0 .. numberOfFlights-1 do
+      flights << [Date.parse(personsThenFlights[3*numberOfPersons+i*2]),personsThenFlights[3*numberOfPersons+(i*2)+1]]
+    end
+    
+    holds(persons,klasse,flights)
     
   end
   
@@ -20,8 +34,8 @@ class HLAction < AbstractQuery
     holds = []
     begin
       persons.each do |p|
-        path.connections.each do |c|
-          holds |= @actions.hold(c.date.to_s,c.flightcode.to_s,klasse,p.gender,p.firstname,p.surname)        
+        path.each do |c|
+          holds |= @actions.hold(c[0].to_s,c[1].to_s,klasse,p.gender,p.firstname,p.surname)        
         end
       end
     rescue
