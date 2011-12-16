@@ -34,8 +34,8 @@ class HLActionstest < Test::Unit::TestCase
     assert_equal(@queri.size,4)
     
     @hlaction.cancelall(@holds)
-
-    assert_raise(@hlaction.queries(@holds))
+    @queri = @hlaction.queries(@holds)
+    assert_equal(0,@queri.size)
     
   end
 

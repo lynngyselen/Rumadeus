@@ -12,10 +12,10 @@ class HLAction < AbstractQuery
     @actions = Actions.new
   end
   
+  
+  
   def holds(persons,klasse,path)
     holds = []
-    p path
-    p path.connections
     begin
       persons.each do |p|
         path.connections.each do |c|
@@ -30,10 +30,9 @@ class HLAction < AbstractQuery
       end
       p "No holds were made"
     end
-    p holds
     holds
    end  
-  alias :query_holds :holds
+
 
   def books(holds)
     books = []
@@ -57,11 +56,11 @@ class HLAction < AbstractQuery
         p e
       end
     end
+    result
   end
   alias :query_queries :queries
 
   def cancelall(booking_code)
-    p booking_code
     booking_code.each do|h|
       begin
         @actions.cancel(h.code)
