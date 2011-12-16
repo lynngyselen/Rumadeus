@@ -1,0 +1,39 @@
+Welcome to Rumadeus!
+type help for a list of commands.
+
+#We look for the shortest flight with a maximum of 2 stops from Brussels to JFK New York. 
+Rumadeus > shortest_with_stops 31/01/2012-01:15 BRU JFK 2 E
+[2012-01-31 BRU FRA GWI098 15:05 01:20, 2012-01-31 FRA JFK AAL341 18:10 08:40] 92100.0
+
+#We make reservations for all 6 flights, from BRU to FRA and from FRA to JFK. 
+Rumadeus > hold_multi 3 2 E M Mathias Spiessens M Robin Debruyne F Lynn Gyselen 2012-01-31 GWI098 2012-01-31 AAL341
+Booking, code: 728ff5c127f57bd2361537a1edcf0acc
+Booking, code: 8fe49d628338c56cae79d7d7eed267dc
+Booking, code: 7e81167987dfa26921da19a5c408af50
+Booking, code: bea1b635f13e84577d9c6d6434ebbb60
+Booking, code: 514b767b7c87be1e02e2acf5c26b7be4
+Booking, code: ef1ec526e28eb218a7de491520ca148b
+
+#We cancel Lynn's flight (last 2 booking codes)
+Rumadeus > cancel_multi 514b767b7c87be1e02e2acf5c26b7be4 ef1ec526e28eb218a7de491520ca148b
+514b767b7c87be1e02e2acf5c26b7be4
+ef1ec526e28eb218a7de491520ca148b
+
+#We book Mathias and Robins flight (first 4 booking codes)
+Rumadeus > book_multi 728ff5c127f57bd2361537a1edcf0acc 8fe49d628338c56cae79d7d7eed267dc 7e81167987dfa26921da19a5c408af50 bea1b635f13e84577d9c6d6434ebbb60
+Booking: S 2012-01-31 15:05 01:20 GWI098 E M Mathias         Spiessens            135
+Booking: S 2012-01-31 18:10 08:40 AAL341 E M Mathias         Spiessens            689
+Booking: S 2012-01-31 15:05 01:20 GWI098 E M Robin           Debruyne             135
+Booking: S 2012-01-31 18:10 08:40 AAL341 E M Robin           Debruyne             689
+
+#We query all 6 booking codes
+Rumadeus > query_multi 728ff5c127f57bd2361537a1edcf0acc 8fe49d628338c56cae79d7d7eed267dc 7e81167987dfa26921da19a5c408af50 bea1b635f13e84577d9c6d6434ebbb60 514b767b7c87be1e02e2acf5c26b7be4 ef1ec526e28eb218a7de491520ca148b
+Booking: B 2012-01-31 15:05 01:20 GWI098 E M Mathias         Spiessens            135
+Booking: B 2012-01-31 18:10 08:40 AAL341 E M Mathias         Spiessens            689
+Booking: B 2012-01-31 15:05 01:20 GWI098 E M Robin           Debruyne             135
+Booking: B 2012-01-31 18:10 08:40 AAL341 E M Robin           Debruyne             689
+
+Rumadeus > 
+
+
+#the booking codes will change everytime the scenario is run
