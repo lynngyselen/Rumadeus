@@ -19,7 +19,7 @@ class HLActionstest < Test::Unit::TestCase
     @sW_hops = 3
     @klasse = "E"
     @path = @hlquery.shortestWithStops(@sW_date, @sW_source,
-      @sW_destination, @sW_hops,@klasse) 
+      @sW_destination, @sW_hops,@klasse).first 
     @person1 = Person.new("MRobin          Debruyne")
     @person2 = Person.new("MMathias        Spiessens")
     @persons = [@person1,@person2]

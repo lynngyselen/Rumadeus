@@ -15,7 +15,8 @@ class HLAction < AbstractQuery
   
 
   def hold_multi(numberOfPersons,numberOfFlights,klasse,*personsThenFlights)
-    length =0
+    numberOfPersons = Integer(numberOfPersons)
+    numberOfFlights = Integer(numberOfFlights)
     persons = []
     for i in 0 .. numberOfPersons-1 do
         persons << Person.new(personsThenFlights[3*i]+(Util::stringValidate personsThenFlights[3*i+1], 15)+(Util::stringValidate personsThenFlights[3*i+2], 20))
@@ -27,10 +28,9 @@ class HLAction < AbstractQuery
       flights << [Date.parse(personsThenFlights[3*numberOfPersons+i*2]),personsThenFlights[3*numberOfPersons+(i*2)+1]]
     end
     
-    holds(persons,klasse,flights)
-
-    
+    holds(persons,klasse,flights)    
   end
+  alias :query_hold_multi :hold_multi
   
   def holds(persons,klasse,path)
     holds = []
@@ -53,7 +53,7 @@ class HLAction < AbstractQuery
   def book_multi(*booking_code)
     codes = []
     booking_code.each do |bc|
-      codes << BookingCode.new(bc)
+      codes << bc
     end
     books(codes)
   end
@@ -63,7 +63,7 @@ class HLAction < AbstractQuery
     books = []
     holds.each do |h|
       begin
-        books |= @actions.book(h.code)
+        books |= @actions.book(h)
       rescue
         begin
           cancelall(holds)
@@ -78,7 +78,7 @@ class HLAction < AbstractQuery
   def query_multi(*booking_code)
     codes = []
     booking_code.each do |bc|
-      codes << BookingCode.new(bc)
+      codes << bc
     end
     queries(codes)
   end
@@ -88,7 +88,7 @@ class HLAction < AbstractQuery
     result =[]
     books.each do|b|
       begin
-        result.concat(@actions.query(b.code))
+        result.concat(@actions.query(b))
       rescue
       end
     end
@@ -98,7 +98,7 @@ class HLAction < AbstractQuery
   def cancel_multi(*booking_code)
     codes = []
     booking_code.each do |bc|
-      codes << BookingCode.new(bc)
+      codes << bc
     end
     cancelall(codes)
   end
@@ -107,7 +107,7 @@ class HLAction < AbstractQuery
   def cancelall(booking_code)
     booking_code.each do|h|
       begin
-        @actions.cancel(h.code)
+        @actions.cancel(h)
       rescue
       end
     end

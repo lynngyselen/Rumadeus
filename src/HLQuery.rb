@@ -48,7 +48,7 @@ class HLQuery < AbstractQuery
         result << t
       end
     end
-    result.min
+    [result.min]
   end
   alias :query_shortest_with_stops :shortestWithStops
   

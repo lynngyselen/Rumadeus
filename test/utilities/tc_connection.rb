@@ -33,7 +33,7 @@ class ConnectionTest < Test::Unit::TestCase
   
   def test_to_s
     str = "#{@parsedDate.to_s} #{@from.to_s} #{@to.to_s} #{@flightcode}" +
-      "#{@parsedDeptime.to_s} #{@parsedDuration.to_s}"
+      " #{@parsedDeptime.to_s} #{@parsedDuration.to_s}"
     assert_equal(str, @conn.to_s)
   end
   

@@ -37,7 +37,7 @@ class REPL
         "\n#{error.message.capitalize}."
       rescue Util::InvalidInputException
         "Your arguments are invalid..."
-      rescue Util::ReservationError => e
+      rescue Util::ReservationError => error
         "Error: #{error.message}"
       rescue Util::ServerError => error
         handle_server_error error
