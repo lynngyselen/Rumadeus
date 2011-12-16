@@ -23,7 +23,6 @@ class HLActionstest < Test::Unit::TestCase
     @person1 = Person.new("MRobin          Debruyne")
     @person2 = Person.new("MMathias        Spiessens")
     @persons = [@person1,@person2]
-
   end
 
   def test_all
@@ -42,43 +41,4 @@ class HLActionstest < Test::Unit::TestCase
     assert_equal(0,@queri.size)
     
   end
-
-
-  def test_multi
-    
-  end
-
-=begin
-  def test_holdmulti
-      @holds.each do |h|
-        b = @action.book h
-        q = @action.query b
-        assert_equal(b.flightcode, q.flightcode)
-        assert_equal(b.person, q.person)
-      end
-      if @holds.size > 0
-        assert_equal(@holds.size, @hops.connections.size)
-      end
-      @hlquery.cancelMulti @holds
-  end
-  
-  def test_cancelmulti
-    @hlquery.cancelMulti @holds
-    @holds.each do |h|
-      b = @action.query h
-      assert_equal(false,true)
-    end
-  end
-  
-  def test_bookmulti
-    @holds = @hlquery.holdMulti(@hops.connections, "E", @person)
-    bookings = @hlquery.bookMulti @holds
-    bookings.each do |b|
-      q = @action.query b
-      assert_equal("E", q.class)
-      assert_equal(@person, q.person)
-    end
-    @hlquery.cancelMulti @holds
-  end
-=end
 end

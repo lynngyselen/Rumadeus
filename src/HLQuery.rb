@@ -38,7 +38,7 @@ class HLQuery < AbstractQuery
   end
   alias :query_best_price :bestprice
   
-  def shortestWithStops(datetime, source, destination, stops,klasse)
+  def shortestWithStops(datetime, source, destination, stops, klasse)
     datetime = DateTime.parse datetime.to_s
     result = []
     paths = withStops(source, destination, stops)
@@ -102,8 +102,8 @@ class HLQuery < AbstractQuery
     end
   end
   
-  def has_seats (conn,klasse)
-    enough_seats?(1,conn.date.to_s,conn.flightcode.to_s,klasse)
+  def has_seats (conn, klasse)
+    enough_seats?(1, conn.date.to_s, conn.flightcode.to_s, klasse)
   end
   
   def withStops(source, destination, stops)
@@ -138,10 +138,9 @@ class HLQuery < AbstractQuery
   def enough_seats?(number_of_seats, date, flightnumber, klasse)
     seatPrices = @query.get_seats_safely(date, flightnumber, klasse)
     availableSeats = seatPrices.empty? ? 0 : seatPrices[0].seats
-    availableSeats >= number_of_seats ? true : false
+    availableSeats >= number_of_seats
   end
 
-  
   def delegate
     Action.new
   end

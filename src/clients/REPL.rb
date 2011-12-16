@@ -67,7 +67,7 @@ class REPL
     end
   end
   
-  # Prepend Util::QUER_ID to the first element of input
+  # Prepend Util::QUERY_ID to the first element of input
   def format input
     [(Util::add_query input[0]), *(input.drop 1)]
   end

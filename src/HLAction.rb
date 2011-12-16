@@ -13,31 +13,33 @@ class HLAction < AbstractQuery
     @actions = Action.new
   end
   
-
-  def hold_multi(numberOfPersons,numberOfFlights,klasse,*personsThenFlights)
-    numberOfPersons = Integer(numberOfPersons)
-    numberOfFlights = Integer(numberOfFlights)
+  def hold_multi(number_of_persons, number_of_flights, klasse, *persons_then_flights)
+    numberOfPersons = Integer(number_of_persons)
+    numberOfFlights = Integer(number_of_flights)
     persons = []
     for i in 0 .. numberOfPersons-1 do
-        persons << Person.new(personsThenFlights[3*i]+(Util::stringValidate personsThenFlights[3*i+1], 15)+(Util::stringValidate personsThenFlights[3*i+2], 20))
+        persons << Person.new(persons_then_flights[3*i] +
+          (Util::stringValidate persons_then_flights[3*i+1], 15) +
+          (Util::stringValidate persons_then_flights[3*i+2], 20))
     end
     
     flights = []
-    
     for i in 0 .. numberOfFlights-1 do
-      flights << [Date.parse(personsThenFlights[3*numberOfPersons+i*2]),personsThenFlights[3*numberOfPersons+(i*2)+1]]
+      flights << [Date.parse(persons_then_flights[3*numberOfPersons+i*2]),
+        persons_then_flights[3*numberOfPersons+(i*2)+1]]
     end
     
     holds(persons,klasse,flights)    
   end
   alias :query_hold_multi :hold_multi
   
-  def holds(persons,klasse,path)
+  def holds(persons, klasse, path)
     holds = []
     begin
       persons.each do |p|
         path.each do |c|
-          holds |= @actions.hold(c[0].to_s,c[1].to_s,klasse,p.gender,p.firstname,p.surname)        
+          holds |= @actions.hold(c[0].to_s, c[1].to_s, klasse, p.gender, 
+            p.firstname, p.surname)        
         end
       end
     rescue
@@ -116,8 +118,5 @@ class HLAction < AbstractQuery
   def delegate
     LastResort.new
   end
-
-
+  
 end
-
-
