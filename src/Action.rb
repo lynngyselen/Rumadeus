@@ -4,7 +4,7 @@ require 'Util'
 require 'utilities/Booking'
 require 'utilities/BookingCode'
 
-class Actions < AbstractQuery
+class Action < AbstractQuery
     
   def initialize
     super
@@ -20,7 +20,7 @@ class Actions < AbstractQuery
         (Util::stringValidate surname, 20)
     output = @telnet.query query
     if output[0].start_with? "S"
-      hold = BookingCode.new(output[0])
+      hold = [BookingCode.new(output[0])]
     elsif output[0].include? "FN"
       raise Util::ReservationError, "No seat available in specified category" 
     end
@@ -33,7 +33,7 @@ class Actions < AbstractQuery
 
     output = @telnet.query ("B" + (Util::lengthCheck code, 32))
     if output[0].start_with? "S"
-      book = Booking.new(output[0])
+      book = [Booking.new(output[0])]
     elsif (output[0].start_with? "FN")
       raise Util::ReservationError, "No booking available"
     elsif (output[0].start_with? "FA")
@@ -47,7 +47,7 @@ class Actions < AbstractQuery
   def cancel(code)
     output = @telnet.query ("X" + (Util::lengthCheck code, 32))
      if output[0].start_with? "S" 
-       "Successfully cancelled"
+       ["Successfully cancelled"]
      elsif (output[0].include? "FN") 
        raise Util::ReservationError, "Invalid booking code"
      elsif (output[0].include? "FA") 
@@ -62,7 +62,7 @@ class Actions < AbstractQuery
     if output[0].start_with? "FN"
       raise Util::ReservationError, "No holding or booking"
     else
-      result = Booking.new(output[0])
+      result = [Booking.new(output[0])]
     end
     result
   end

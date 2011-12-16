@@ -8,7 +8,9 @@ class HLQueryTest < Test::Unit::TestCase
   def setup
     @query = Query.new
     @hlquery = HLQuery.new
-    @action = Actions.new
+    @action = Action.new
+    
+    @klasse = "E"
     
     @ws_times = 2
     @ws_source = ["CDG","BRU"]
@@ -48,7 +50,7 @@ class HLQueryTest < Test::Unit::TestCase
   end
 
   def test_shortestTwo 
-    shortest = @hlquery.shortestTwo(@s2_date, @s2_source, @s2_destination)
+    shortest = @hlquery.shortestTwo(@s2_date, @s2_source, @s2_destination,@klasse)
     test = []
     date = Date.parse "#{@s2_date.year.to_s}-#{@s2_date.month.to_s}-" +
       "#{@s2_date.day.to_s}"
@@ -61,19 +63,18 @@ class HLQueryTest < Test::Unit::TestCase
   end
 
   def test_shortestMultiple
-    shortest = @hlquery.shortestMultiple(@sM_date, @sM_list)
+    shortest = @hlquery.shortestMultiple(@sM_date, @sM_list,@klasse)
     (0 .. (@sM_list.size - 2)).each do |i|
       assert_equal(shortest.connections[i],
-        @hlquery.shortestTwo(@sM_date, @sM_list[i], @sM_list[i+1]))
+        @hlquery.shortestTwo(@sM_date, @sM_list[i], @sM_list[i+1],@klasse))
     end
   end
  
   def test_shortestWithStops  
     shortest = @hlquery.shortestWithStops(@sW_date, @sW_source,
-      @sW_destination, @sW_hops) 
-      p shortest
+      @sW_destination, @sW_hops,@klasse) 
     (@hlquery.withStops(@sW_source, @sW_destination, @sW_hops)).each do |p|
-      x =@hlquery.shortestMultiple(@sW_date, p)
+      x =@hlquery.shortestMultiple(@sW_date, p,@klasse)
       if not x.nil?
         assert(shortest <= x)
       end

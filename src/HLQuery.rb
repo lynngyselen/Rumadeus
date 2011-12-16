@@ -5,7 +5,7 @@
 
 require 'AbstractQuery'
 require 'Query'
-require 'Actions'
+require 'Action'
 require 'utilities/Path'
 
 # Add fold methods to Array
@@ -26,23 +26,9 @@ class HLQuery < AbstractQuery
   
   def initialize
     @query = Query.new
-    @action = Actions.new
+    @action = Action.new
   end
-  
-  # return list of possibilities for each hop
-  def multihop(date, source, *destinations)
-    result = []
-    tmpSrc = source
-    
-    destinations.each do |d|
-      result << @query.listConnections(date, tmpSrc, d)
-      tmpSrc = d
-    end
-    
-    result
-  end
-  alias :query_multihop :multihop
-  
+   
   def bestprice(date, source, destination, type)
     result = []
     @query.listConnections(date, source, destination).each { |c|
@@ -51,14 +37,13 @@ class HLQuery < AbstractQuery
     result.min || []
   end
   alias :query_best_price :bestprice
-
   
-  def shortestWithStops(datetime, source, destination, stops)
+  def shortestWithStops(datetime, source, destination, stops,klasse)
     datetime = DateTime.parse datetime.to_s
     result = []
     paths = withStops(source, destination, stops)
     paths.each do |p|
-      t = shortestMultiple(datetime, p)
+      t = shortestMultiple(datetime, p,klasse)
       if not t.nil?
         result << t
       end
@@ -67,11 +52,11 @@ class HLQuery < AbstractQuery
   end
   alias :query_shortest_with_stops :shortestWithStops
   
-  def shortestMultiple(date, list)
+  def shortestMultiple(date, list,klasse)
     dt = DateTime.parse date.to_s
     result = []
     for i in 0 .. (list.size-2)
-      tmp =  shortestTwo(dt, list[i], list[i+1])
+      tmp =  shortestTwo(dt, list[i], list[i+1],klasse)
       if not tmp.nil?
         dt = tmp.arrival_time
         result << tmp
@@ -81,9 +66,8 @@ class HLQuery < AbstractQuery
     end
     path = Path.new(date, result)
   end
-  alias :query_shortest_multiple :shortestMultiple
   
-  def shortestTwo(date, source, destination)
+  def shortestTwo(date, source, destination,klasse)
     result = []
     oridate = DateTime.parse date.to_s
     date =Date.parse date.to_s 
@@ -99,28 +83,27 @@ class HLQuery < AbstractQuery
       end
     }
     
-    find_best_connection tmp
+    find_best_connection(tmp,klasse)
   end
-  alias :query_shortest_two :shortestTwo
   
-  def find_best_connection conns
+  def find_best_connection(conns,klasse)
     conns.fold nil do |acc, conn|
-      better_connection?(conn, acc) ? conn : acc 
+      better_connection?(conn, acc,klasse) ? conn : acc 
     end
   end
   
-  def better_connection? (c1, c2)
+  def better_connection? (c1, c2,klasse)
     if c2.nil?
-      has_seats c1
-    elsif has_seats c1
+      has_seats(c1,klasse)
+    elsif has_seats(c1,klasse)
       c1.arrival_time < c2.arrival_time
     else
       false
     end
   end
   
-  def has_seats conn
-    true
+  def has_seats (conn,klasse)
+    enough_seats?(1,conn.date.to_s,conn.flightcode.to_s,klasse)
   end
   
   def withStops(source, destination, stops)
@@ -146,11 +129,11 @@ class HLQuery < AbstractQuery
     end
     result
   end
-  alias :query_with_stops :withStops
   
   def hasConnection(source, destination)
     not @query.listDestinations(source).index(Code.new(destination)).nil?
   end
+  alias :query_has_connection :hasConnection
   
   def enough_seats?(number_of_seats, date, flightnumber, klasse)
     seatPrices = @query.get_seats_safely(date, flightnumber, klasse)
@@ -160,7 +143,7 @@ class HLQuery < AbstractQuery
   alias :query_enough_seats? :enough_seats?
   
   def delegate
-    Actions.new
+    Action.new
   end
   
 end

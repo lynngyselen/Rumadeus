@@ -1,5 +1,5 @@
 require 'Util'
-require 'Actions'
+require 'Action'
 require 'utilities/BookingCode'
 require 'Query'
 require 'AbstractQuery'
@@ -9,7 +9,7 @@ require 'HLQuery'
 class HLAction < AbstractQuery
   
   def initialize
-    @actions = Actions.new
+    @actions = Action.new
   end
   
   
@@ -19,16 +19,15 @@ class HLAction < AbstractQuery
     begin
       persons.each do |p|
         path.connections.each do |c|
-          holds << @actions.hold(c.date.to_s,c.flightcode.to_s,klasse,p.gender,p.firstname,p.surname)        
+          holds |= @actions.hold(c.date.to_s,c.flightcode.to_s,klasse,p.gender,p.firstname,p.surname)        
         end
       end
-    rescue => e
-      p e
+    rescue
       begin
         cancelall(holds)
       rescue
       end
-      p "No holds were made"
+      raise Util::ReservationError, "Not everything was put on hold" 
     end
     holds
    end  
@@ -38,9 +37,13 @@ class HLAction < AbstractQuery
     books = []
     holds.each do |h|
       begin
-        books << @actions.book(h.code)
-      rescue => e
-        p e
+        books |= @actions.book(h.code)
+      rescue
+        begin
+          cancelall(holds)
+        rescue
+        end
+        raise Util::ReservationError, "Not everything was booked" 
       end
     end
     books
@@ -51,9 +54,8 @@ class HLAction < AbstractQuery
     result =[]
     books.each do|b|
       begin
-        result <<@actions.query(b.code)
-      rescue => e
-        p e
+        result.concat(@actions.query(b.code))
+      rescue
       end
     end
     result
@@ -64,8 +66,7 @@ class HLAction < AbstractQuery
     booking_code.each do|h|
       begin
         @actions.cancel(h.code)
-      rescue => e
-        p e
+      rescue
       end
     end
   end

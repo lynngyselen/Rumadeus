@@ -11,7 +11,7 @@ class HLActionstest < Test::Unit::TestCase
     @query = Query.new
     @hlquery = HLQuery.new
     @hlaction = HLAction.new
-    @action = Actions.new
+    @action = Action.new
     
     @sW_date = DateTime.parse("31/01/2012-01:15") 
     @sW_source = "BRU"
