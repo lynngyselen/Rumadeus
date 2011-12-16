@@ -57,10 +57,12 @@ class HLQuery < AbstractQuery
     datetime = DateTime.parse datetime.to_s
     result = []
     paths = withStops(source, destination, stops)
+    p paths
     paths.each do |p|
       t = shortestMultiple(datetime, p)
       result << t
     end
+    p result
     result.min
   end
   alias :query_shortest_with_stops :shortestWithStops
