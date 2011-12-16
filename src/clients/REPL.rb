@@ -10,7 +10,7 @@ class REPL
   end
   
   def welcome
-    puts "Welcome to Rumadeus!\ntype help for a list of commands.\n\n"
+    puts "Welcome to Rumadeus!\nType help for a list of commands.\n\n"
   end
   
   def run

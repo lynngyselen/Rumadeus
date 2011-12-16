@@ -1,5 +1,5 @@
 Welcome to Rumadeus!
-type help for a list of commands.
+Type help for a list of commands.
 
 #We look for the shortest flight with a maximum of 2 stops from Brussels to JFK New York. 
 Rumadeus > shortest_with_stops 31/01/2012-01:15 BRU JFK 2 E
