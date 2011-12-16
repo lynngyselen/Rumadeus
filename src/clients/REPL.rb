@@ -60,7 +60,7 @@ class REPL
   
   def query input
     out = @query.public_send *(input.each_with_index.map do |x, i|
-      if i == 0 then Util::add_query x else x end
+      i == 0 ? (Util::add_query x) : x
     end)
     if empty? out
       empty_result
