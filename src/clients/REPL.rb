@@ -19,6 +19,7 @@ class REPL
   # Remove newline and quote characters and split on any combination of
   # whitespace and commas. 
   def input
+    print "Rumadeus> "
     (gets.delete "\n\"").split /[[[:blank:]],]+/
   end
   
