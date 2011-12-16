@@ -1,10 +1,10 @@
 require 'AbstractQuery'
-require 'LastResort'
+require 'HLAction'
 require 'Util'
 require 'utilities/Booking'
 require 'utilities/BookingCode'
 
-class Actions < AbstractQuery
+class Action < AbstractQuery
     
   def initialize
     super
@@ -73,7 +73,7 @@ class Actions < AbstractQuery
   # The extendor is responsible for proper handling of
   # non-existing classes then.
   def delegate
-    LastResort.new
+    HLAction.new
   end
 
 end

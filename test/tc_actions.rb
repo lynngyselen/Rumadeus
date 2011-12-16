@@ -9,7 +9,7 @@ class Actionstest < Test::Unit::TestCase
   def setup
     @query = Query.new
     @hlquery = HLQuery.new
-    @action = Actions.new
+    @action = Action.new
 
     @s1_status = "H"
     @s1_date = "2011-12-13" 
