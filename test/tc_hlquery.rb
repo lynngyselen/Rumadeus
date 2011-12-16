@@ -72,8 +72,7 @@ class HLQueryTest < Test::Unit::TestCase
  
   def test_shortestWithStops  
     shortest = @hlquery.shortestWithStops(@sW_date, @sW_source,
-      @sW_destination, @sW_hops,@klasse).first 
-   p shortest
+      @sW_destination, @sW_hops,@klasse).first
     (@hlquery.withStops(@sW_source, @sW_destination, @sW_hops)).each do |p|
       x =@hlquery.shortestMultiple(@sW_date, p,@klasse)
       if not x.nil?

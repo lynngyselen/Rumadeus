@@ -140,7 +140,7 @@ class HLQuery < AbstractQuery
     availableSeats = seatPrices.empty? ? 0 : seatPrices[0].seats
     availableSeats >= number_of_seats ? true : false
   end
-  alias :query_enough_seats? :enough_seats?
+
   
   def delegate
     Action.new

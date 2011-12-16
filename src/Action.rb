@@ -26,7 +26,7 @@ class Action < AbstractQuery
     end
     hold
   end
-  alias :query_hold :hold
+
  
 	
 	def book(code)
@@ -41,7 +41,7 @@ class Action < AbstractQuery
     end
     book
 	end
-  alias :query_book :book
+
 
 
   def cancel(code)
@@ -54,7 +54,6 @@ class Action < AbstractQuery
        raise Util::ReservationError, "Booking is older than 24h and can't be cancelled"  
     end
   end
-  alias :query_cancel :cancel
   
 
   def query(code)
@@ -66,7 +65,7 @@ class Action < AbstractQuery
     end
     result
   end
-  alias :query_query_booking :query
+
 
   # The chain of command can be extended by overriding or monkey patching this
   # method to insert any other class.
