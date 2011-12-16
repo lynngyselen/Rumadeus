@@ -12,7 +12,7 @@ class HLAction < AbstractQuery
     @actions = Action.new
   end
   
-  def hold_multi(NumberOfPersons,NumberOfFlights,klasse,PersonsThenFlights)
+  def hold_multi(numberOfPersons,numberOfFlights,klasse,personsThenFlights)
     
   end
   
